@@ -1,17 +1,31 @@
 from flask import Flask, render_template
 
 from config import Config
-from app.extensions import db, migrate, csrf
+
+from app.extensions import (
+    db,
+    migrate,
+    login_manager,
+    csrf
+)
 
 
 def create_app():
+
     app = Flask(__name__)
+
     app.config.from_object(Config)
 
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.init_app(app)
     csrf.init_app(app)
+
+    # Flask-Login configuration
+    login_manager.login_view = "auth.login"
+    login_manager.login_message = "Please log in to access this page."
+    login_manager.login_message_category = "warning"
 
     # Import models
     from app.models import (
@@ -22,6 +36,11 @@ def create_app():
         SearchHistory,
         SavedResult,
     )
+
+    # User loader
+    @login_manager.user_loader
+    def load_user(user_id):
+        return db.session.get(User, int(user_id))
 
     # Register Main Blueprint
     from app.main import main_bp
@@ -61,8 +80,12 @@ def register_error_handlers(app):
 
     @app.errorhandler(404)
     def not_found(error):
-        return render_template("errors/404.html"), 404
+        return render_template(
+            "errors/404.html"
+        ), 404
 
     @app.errorhandler(500)
     def internal_server_error(error):
-        return render_template("errors/500.html"), 500
+        return render_template(
+            "errors/500.html"
+        ), 500

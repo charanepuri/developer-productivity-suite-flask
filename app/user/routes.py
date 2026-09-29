@@ -2,8 +2,10 @@ from flask import render_template
 
 from app.user import user_bp
 
+from flask_login import login_required
 
 @user_bp.route("/profile")
+@login_required
 def profile():
     return render_template("user/profile.html")
 
