@@ -4,6 +4,28 @@ body {
     color: #212529;
 }
 
-h1 {
-    letter-spacing: -1px;
+main {
+    min-height: calc(100vh - 140px);
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+footer {
+    margin-top: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
 }
