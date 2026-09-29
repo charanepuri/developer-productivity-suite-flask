@@ -1,29 +1,400 @@
 {% extends "base.html" %}
 
 {% block title %}
-Developer Productivity Suite
+Developer Productivity Suite | Flask
 {% endblock %}
+
 
 {% block content %}
 
-<div class="container py-5">
+<style>
 
-    <div class="text-center">
+    .hero-section {
+        padding: 6rem 0 5rem;
+    }
 
-        <h1 class="display-4 fw-bold">
-            Developer Productivity Suite
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        padding: 0.5rem 1rem;
+
+        border-radius: 999px;
+
+        background: rgba(13, 110, 253, 0.1);
+        color: var(--dps-primary);
+
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+
+    .hero-title {
+        max-width: 850px;
+
+        margin: 1.5rem auto 0;
+
+        font-size: clamp(
+            2.5rem,
+            6vw,
+            4.5rem
+        );
+
+        font-weight: 800;
+
+        letter-spacing: -2px;
+
+        line-height: 1.05;
+    }
+
+
+    .hero-title span {
+        color: var(--dps-primary);
+    }
+
+
+    .hero-description {
+        max-width: 700px;
+
+        margin: 1.5rem auto 0;
+
+        color: var(--dps-muted);
+
+        font-size: 1.1rem;
+
+        line-height: 1.7;
+    }
+
+
+    .hero-actions {
+        margin-top: 2rem;
+    }
+
+
+    .hero-stat {
+        padding: 1.5rem;
+
+        background: var(--dps-surface);
+
+        border: 1px solid var(--dps-border);
+
+        border-radius: 16px;
+
+        box-shadow: var(--dps-shadow);
+    }
+
+
+    .hero-stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--dps-primary);
+    }
+
+
+    .hero-stat-label {
+        color: var(--dps-muted);
+        font-size: 0.9rem;
+    }
+
+
+    .section-title {
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+
+    .category-card {
+        height: 100%;
+
+        padding: 1.5rem;
+
+        background: var(--dps-surface);
+
+        border: 1px solid var(--dps-border);
+
+        border-radius: 16px;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--dps-shadow);
+    }
+
+
+    .category-icon {
+        width: 48px;
+        height: 48px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: rgba(13, 110, 253, 0.1);
+
+        color: var(--dps-primary);
+
+        font-size: 1.25rem;
+    }
+
+
+    .category-count {
+        color: var(--dps-muted);
+        font-size: 0.9rem;
+    }
+
+</style>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero-section">
+
+    <div class="container text-center">
+
+        <span class="hero-badge">
+
+            <i class="bi bi-lightning-charge-fill"></i>
+
+            Flask Edition
+
+        </span>
+
+
+        <h1 class="hero-title">
+
+            Your Everyday
+            <span>Developer Toolkit</span>
+
         </h1>
 
-        <p class="lead mt-3">
-            Flask Edition
+
+        <p class="hero-description">
+
+            Developer Productivity Suite brings
+            50 practical developer tools together
+            in one fast, organized and
+            backend-powered platform.
+
         </p>
 
-        <p class="text-muted">
-            50 developer productivity tools in one platform.
-        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="{{ url_for('tools.index') }}"
+                class="btn btn-primary btn-lg px-4 me-2"
+            >
+
+                <i class="bi bi-tools me-2"></i>
+
+                Explore Tools
+
+            </a>
+
+
+            {% if not current_user.is_authenticated %}
+
+            <a
+                href="{{ url_for('auth.register') }}"
+                class="btn btn-outline-primary btn-lg px-4"
+            >
+
+                Get Started
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Stats -->
+
+        <div class="row g-3 justify-content-center mt-5">
+
+            <div class="col-6 col-md-3">
+
+                <div class="hero-stat">
+
+                    <div class="hero-stat-number">
+                        50
+                    </div>
+
+                    <div class="hero-stat-label">
+                        Developer Tools
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="hero-stat">
+
+                    <div class="hero-stat-number">
+                        10
+                    </div>
+
+                    <div class="hero-stat-label">
+                        Categories
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="hero-stat">
+
+                    <div class="hero-stat-number">
+                        API
+                    </div>
+
+                    <div class="hero-stat-label">
+                        Ready
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="hero-stat">
+
+                    <div class="hero-stat-number">
+                        Flask
+                    </div>
+
+                    <div class="hero-stat-label">
+                        Powered
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="pb-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+                Explore Tool Categories
+            </h2>
+
+            <p class="text-muted mt-2">
+                Everything you need for everyday development tasks.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {% set categories = [
+                ("bi-fonts", "Text Tools", 6),
+                ("bi-braces", "JSON Tools", 6),
+                ("bi-shield-lock", "Security Tools", 6),
+                ("bi-code-square", "CSS Tools", 5),
+                ("bi-palette", "Color Tools", 5),
+                ("bi-markdown", "Markdown Tools", 5),
+                ("bi-code-slash", "Developer Tools", 6),
+                ("bi-calendar3", "Date & Time Tools", 4),
+                ("bi-cloud-arrow-up", "API Tools", 4),
+                ("bi-file-earmark-code", "Encoding Tools", 3)
+            ] %}
+
+
+            {% for icon, name, count in categories %}
+
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+
+                <div class="category-card">
+
+                    <div class="category-icon mb-3">
+
+                        <i class="bi {{ icon }}"></i>
+
+                    </div>
+
+
+                    <h5 class="fw-bold">
+                        {{ name }}
+                    </h5>
+
+
+                    <p class="category-count mb-0">
+
+                        {{ count }} tools
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="pb-5">
+
+    <div class="container">
+
+        <div class="p-4 p-md-5 text-center rounded-4 bg-primary text-white">
+
+            <h2 class="fw-bold">
+                Ready to boost your productivity?
+            </h2>
+
+            <p class="mb-4 opacity-75">
+                Explore the developer tools built into DPS.
+            </p>
+
+            <a
+                href="{{ url_for('tools.index') }}"
+                class="btn btn-light px-4"
+            >
+                Explore Tools
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

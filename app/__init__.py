@@ -9,12 +9,19 @@ from app.extensions import (
     csrf
 )
 
+from datetime import datetime
 
 def create_app():
 
     app = Flask(__name__)
 
     app.config.from_object(Config)
+
+    @app.context_processor
+    def inject_global_variables():
+        return {
+            "current_year": datetime.now().year
+    }
 
     # Initialize extensions
     db.init_app(app)
@@ -72,7 +79,7 @@ def create_app():
 
     # Error handlers
     register_error_handlers(app)
-
+    
     return app
 
 

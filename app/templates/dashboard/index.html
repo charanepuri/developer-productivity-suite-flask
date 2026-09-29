@@ -4,41 +4,246 @@
 Dashboard | Developer Productivity Suite
 {% endblock %}
 
+
 {% block content %}
 
-<div class="container py-5">
+<style>
 
-    <h1 class="mb-4">
-        Dashboard
-    </h1>
+    .dashboard-header {
+        padding: 3rem 0 2rem;
+    }
+
+
+    .dashboard-title {
+        font-weight: 800;
+    }
+
+
+    .stat-card {
+        height: 100%;
+
+        padding: 1.5rem;
+
+        background: var(--dps-surface);
+
+        border: 1px solid var(--dps-border);
+
+        border-radius: 16px;
+
+        box-shadow: var(--dps-shadow);
+    }
+
+
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: rgba(13, 110, 253, 0.1);
+
+        color: var(--dps-primary);
+
+        font-size: 1.2rem;
+    }
+
+
+    .stat-value {
+        margin-top: 1rem;
+
+        font-size: 2rem;
+
+        font-weight: 800;
+    }
+
+
+    .stat-label {
+        color: var(--dps-muted);
+    }
+
+
+    .dashboard-panel {
+        padding: 1.5rem;
+
+        background: var(--dps-surface);
+
+        border: 1px solid var(--dps-border);
+
+        border-radius: 16px;
+    }
+
+</style>
+
+
+<div class="container">
+
+    <section class="dashboard-header">
+
+        <h1 class="dashboard-title">
+            Welcome back, {{ current_user.username }} 👋
+        </h1>
+
+        <p class="text-muted">
+            Here's an overview of your Developer Productivity Suite.
+        </p>
+
+    </section>
+
+
+    <!-- Statistics -->
 
     <div class="row g-4">
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>Available Tools</h5>
-                    <h2>50</h2>
+        <div class="col-md-6 col-xl-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-tools"></i>
                 </div>
+
+                <div class="stat-value">
+                    50
+                </div>
+
+                <div class="stat-label">
+                    Available Tools
+                </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>Favorites</h5>
-                    <h2>0</h2>
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-heart"></i>
                 </div>
+
+                <div class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Favorite Tools
+                </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>Saved Results</h5>
-                    <h2>0</h2>
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-clock-history"></i>
                 </div>
+
+                <div class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Searches
+                </div>
+
             </div>
+
+        </div>
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-bookmark"></i>
+                </div>
+
+                <div class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Saved Results
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard Panels -->
+
+    <div class="row g-4 mt-2 mb-5">
+
+        <div class="col-lg-8">
+
+            <div class="dashboard-panel">
+
+                <h4 class="fw-bold">
+                    Recent Activity
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Your recent tool activity will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="dashboard-panel">
+
+                <h4 class="fw-bold">
+                    Quick Links
+                </h4>
+
+                <div class="d-grid gap-2 mt-3">
+
+                    <a
+                        href="{{ url_for('tools.index') }}"
+                        class="btn btn-primary"
+                    >
+                        <i class="bi bi-tools me-2"></i>
+                        Explore Tools
+                    </a>
+
+                    <a
+                        href="{{ url_for('user.favorites') }}"
+                        class="btn btn-outline-primary"
+                    >
+                        <i class="bi bi-heart me-2"></i>
+                        Favorites
+                    </a>
+
+                    <a
+                        href="{{ url_for('user.history') }}"
+                        class="btn btn-outline-secondary"
+                    >
+                        <i class="bi bi-clock-history me-2"></i>
+                        Search History
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>

@@ -4,22 +4,149 @@
 Developer Tools | DPS
 {% endblock %}
 
+
 {% block content %}
 
-<div class="container py-5">
+<style>
 
-    <h1 class="mb-3">
-        Developer Tools
-    </h1>
+    .tools-header {
+        padding: 4rem 0 3rem;
+    }
 
-    <p class="text-muted">
-        Explore 50 productivity tools across 10 categories.
-    </p>
 
-    <div class="alert alert-info mt-4">
-        Tool implementations will be added in upcoming phases.
+    .tools-title {
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+
+    .tool-category-card {
+        height: 100%;
+
+        padding: 1.5rem;
+
+        background: var(--dps-surface);
+
+        border: 1px solid var(--dps-border);
+
+        border-radius: 16px;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .tool-category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--dps-shadow);
+    }
+
+
+    .tool-icon {
+        width: 48px;
+        height: 48px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: rgba(13, 110, 253, 0.1);
+
+        color: var(--dps-primary);
+
+        font-size: 1.25rem;
+    }
+
+</style>
+
+
+<section class="tools-header">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h1 class="tools-title">
+                Developer Tools
+            </h1>
+
+            <p class="text-muted mt-2">
+                50 tools across 10 categories
+                for your everyday development workflow.
+            </p>
+
+        </div>
+
     </div>
 
-</div>
+</section>
+
+
+<section class="pb-5">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            {% set categories = [
+                ("bi-fonts", "Text Tools", 6),
+                ("bi-braces", "JSON Tools", 6),
+                ("bi-shield-lock", "Security Tools", 6),
+                ("bi-code-square", "CSS Tools", 5),
+                ("bi-palette", "Color Tools", 5),
+                ("bi-markdown", "Markdown Tools", 5),
+                ("bi-code-slash", "Developer Tools", 6),
+                ("bi-calendar3", "Date & Time Tools", 4),
+                ("bi-cloud-arrow-up", "API Tools", 4),
+                ("bi-file-earmark-code", "Encoding Tools", 3)
+            ] %}
+
+
+            {% for icon, name, count in categories %}
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="tool-category-card">
+
+                    <div class="tool-icon mb-3">
+
+                        <i class="bi {{ icon }}"></i>
+
+                    </div>
+
+
+                    <h4 class="fw-bold">
+                        {{ name }}
+                    </h4>
+
+
+                    <p class="text-muted">
+                        Explore {{ count }}
+                        developer productivity tools.
+                    </p>
+
+
+                    <button
+                        class="btn btn-outline-primary"
+                        disabled
+                    >
+                        Coming Soon
+                    </button>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}
