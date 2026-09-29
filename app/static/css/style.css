@@ -1,0 +1,9 @@
+body {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+h1 {
+    letter-spacing: -1px;
+}
