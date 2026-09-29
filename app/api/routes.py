@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from app.api import api_bp
+from app.models import Category, Tool, User
 
 
 @api_bp.route("/")
@@ -16,4 +17,14 @@ def index():
 def health():
     return jsonify({
         "status": "healthy"
+    })
+
+
+@api_bp.route("/database-status")
+def database_status():
+    return jsonify({
+        "database": "connected",
+        "users": User.query.count(),
+        "categories": Category.query.count(),
+        "tools": Tool.query.count()
     })

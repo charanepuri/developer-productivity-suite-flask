@@ -13,6 +13,16 @@ def create_app():
     migrate.init_app(app, db)
     csrf.init_app(app)
 
+    # Import models
+    from app.models import (
+        User,
+        Category,
+        Tool,
+        Favorite,
+        SearchHistory,
+        SavedResult,
+    )
+
     # Register Main Blueprint
     from app.main import main_bp
     app.register_blueprint(main_bp)
