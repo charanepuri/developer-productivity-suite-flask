@@ -83,36 +83,48 @@
                     <!-- Tool Action -->
                     <div class="mt-auto">
 
-                        {% if tool.slug in [
-                            "word-counter",
-                            "character-counter",
-                            "case-converter",
-                            "remove-duplicate-lines",
-                            "text-sorter",
-                            "text-reverser"
-                        ] %}
+                    {% if tool.slug in [
+                        "word-counter",
+                        "character-counter",
+                        "case-converter",
+                        "remove-duplicate-lines",
+                        "text-sorter",
+                        "text-reverser",
+                        "json-formatter",
+                        "json-validator",
+                        "json-minifier",
+                        "json-to-csv",
+                        "json-sorter",
+                        "json-escape-unescape"
+                    ] %}
 
                             <!-- Implemented Tool -->
 
-                            <a href="{{ url_for(
-                                'tools.' + {
-                                    'word-counter': 'word_counter',
-                                    'character-counter': 'character_counter',
-                                    'case-converter': 'case_converter',
-                                    'remove-duplicate-lines': 'duplicate_lines',
-                                    'text-sorter': 'text_sorter',
-                                    'text-reverser': 'text_reverser'
-                                }[tool.slug]
-                            ) }}"
-                               class="btn btn-primary">
+<a href="{{ url_for(
+    'tools.' + {
+        'word-counter': 'word_counter',
+        'character-counter': 'character_counter',
+        'case-converter': 'case_converter',
+        'remove-duplicate-lines': 'duplicate_lines',
+        'text-sorter': 'text_sorter',
+        'text-reverser': 'text_reverser',
+        'json-formatter': 'json_formatter',
+        'json-validator': 'json_validator',
+        'json-minifier': 'json_minifier',
+        'json-to-csv': 'json_to_csv_tool',
+        'json-sorter': 'json_sorter',
+        'json-escape-unescape': 'json_escape_unescape'
+    }[tool.slug]
+) }}"
+   class="btn btn-primary">
 
-                                <i class="bi bi-play-circle me-1"></i>
+    <i class="bi bi-play-circle me-1"></i>
 
-                                Open Tool
+    Open Tool
 
-                                <i class="bi bi-arrow-right ms-1"></i>
+    <i class="bi bi-arrow-right ms-1"></i>
 
-                            </a>
+</a>
 
 
                             <!-- Available Badge -->
