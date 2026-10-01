@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ tool.name }} | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="mb-4">
+
+        <a href="{{ url_for('tools.category_detail', slug=tool.category.slug) }}"
+           class="btn btn-outline-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            {{ tool.category.name }}
+
+        </a>
+
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-5 text-center">
+
+                    <div class="tool-icon mx-auto mb-4">
+                        <i class="bi bi-tools"></i>
+                    </div>
+
+                    <span class="badge text-bg-primary mb-3">
+                        {{ tool.category.name }}
+                    </span>
+
+                    <h1 class="fw-bold mb-3">
+                        {{ tool.name }}
+                    </h1>
+
+                    <p class="lead text-secondary mb-4">
+                        {{ tool.description }}
+                    </p>
+
+                    <div class="alert alert-info text-start">
+
+                        <i class="bi bi-info-circle me-2"></i>
+
+                        This tool interface will be implemented
+                        in a later development phase.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+.tool-icon {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+    font-size: 2rem;
+}
+</style>
+
+{% endblock %}

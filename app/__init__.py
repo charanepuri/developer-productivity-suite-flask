@@ -1,3 +1,5 @@
+from unittest import result
+
 from flask import Flask, render_template
 
 from config import Config
@@ -10,6 +12,8 @@ from app.extensions import (
 )
 
 from datetime import datetime
+
+from app.seed import seed_database
 
 def create_app():
 
@@ -79,6 +83,17 @@ def create_app():
 
     # Error handlers
     register_error_handlers(app)
+    
+    @app.cli.command("seed")
+    def seed():
+        """Seed categories and developer tools."""
+        result = seed_database()
+
+        print(
+            f"Seed completed: "
+            f"{result['categories_created']} categories created, "
+            f"{result['tools_created']} tools created."
+        )
     
     return app
 

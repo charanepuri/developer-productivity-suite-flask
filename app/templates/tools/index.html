@@ -1,152 +1,106 @@
 {% extends "base.html" %}
 
 {% block title %}
-Developer Tools | DPS
+Developer Tools | Developer Productivity Suite
 {% endblock %}
-
 
 {% block content %}
 
-<style>
+<div class="container py-5">
 
-    .tools-header {
-        padding: 4rem 0 3rem;
-    }
+    <div class="text-center mb-5">
 
+        <span class="badge text-bg-primary mb-3">
+            Developer Toolkit
+        </span>
 
-    .tools-title {
-        font-weight: 800;
-        letter-spacing: -1px;
-    }
+        <h1 class="display-5 fw-bold">
+            Developer Productivity Tools
+        </h1>
 
-
-    .tool-category-card {
-        height: 100%;
-
-        padding: 1.5rem;
-
-        background: var(--dps-surface);
-
-        border: 1px solid var(--dps-border);
-
-        border-radius: 16px;
-
-        transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
-    }
-
-
-    .tool-category-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--dps-shadow);
-    }
-
-
-    .tool-icon {
-        width: 48px;
-        height: 48px;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 12px;
-
-        background: rgba(13, 110, 253, 0.1);
-
-        color: var(--dps-primary);
-
-        font-size: 1.25rem;
-    }
-
-</style>
-
-
-<section class="tools-header">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h1 class="tools-title">
-                Developer Tools
-            </h1>
-
-            <p class="text-muted mt-2">
-                50 tools across 10 categories
-                for your everyday development workflow.
-            </p>
-
-        </div>
+        <p class="lead text-secondary mx-auto"
+           style="max-width: 720px;">
+            Explore our collection of developer-focused utilities
+            organized into practical categories.
+        </p>
 
     </div>
 
-</section>
+    <div class="row g-4">
 
+        {% for category in categories %}
 
-<section class="pb-5">
+        <div class="col-md-6 col-lg-4 col-xl-3">
 
-    <div class="container">
+            <div class="card h-100 border-0 shadow-sm category-card">
 
-        <div class="row g-4">
+                <div class="card-body p-4">
 
-            {% set categories = [
-                ("bi-fonts", "Text Tools", 6),
-                ("bi-braces", "JSON Tools", 6),
-                ("bi-shield-lock", "Security Tools", 6),
-                ("bi-code-square", "CSS Tools", 5),
-                ("bi-palette", "Color Tools", 5),
-                ("bi-markdown", "Markdown Tools", 5),
-                ("bi-code-slash", "Developer Tools", 6),
-                ("bi-calendar3", "Date & Time Tools", 4),
-                ("bi-cloud-arrow-up", "API Tools", 4),
-                ("bi-file-earmark-code", "Encoding Tools", 3)
-            ] %}
-
-
-            {% for icon, name, count in categories %}
-
-            <div class="col-md-6 col-lg-4">
-
-                <div class="tool-category-card">
-
-                    <div class="tool-icon mb-3">
-
-                        <i class="bi {{ icon }}"></i>
-
+                    <div class="category-icon mb-3">
+                        <i class="bi {{ category.icon }}"></i>
                     </div>
 
+                    <h5 class="fw-bold">
+                        {{ category.name }}
+                    </h5>
 
-                    <h4 class="fw-bold">
-                        {{ name }}
-                    </h4>
-
-
-                    <p class="text-muted">
-                        Explore {{ count }}
-                        developer productivity tools.
+                    <p class="text-secondary small">
+                        {{ category.description }}
                     </p>
 
+                    <div class="d-flex justify-content-between
+                                align-items-center">
 
-                    <button
-                        class="btn btn-outline-primary"
-                        disabled
-                    >
-                        Coming Soon
-                    </button>
+                        <span class="badge text-bg-secondary">
+                            {{ category.tools|length }} Tools
+                        </span>
+
+                        <a href="{{ url_for(
+                            'tools.category_detail',
+                            slug=category.slug
+                        ) }}"
+                           class="btn btn-sm btn-primary">
+
+                            Explore
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            {% endfor %}
-
         </div>
+
+        {% endfor %}
 
     </div>
 
-</section>
+</div>
+
+<style>
+.category-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10) !important;
+}
+
+.category-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+    font-size: 1.35rem;
+}
+</style>
 
 {% endblock %}
