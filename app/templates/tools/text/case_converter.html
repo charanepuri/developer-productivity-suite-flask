@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}
+Case Converter | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="mb-4">
+                <a href="{{ url_for('tools.category_detail',
+                                    slug='text-tools') }}"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    Text Tools
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-fonts"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            Case Converter
+                        </h1>
+
+                        <p class="text-secondary">
+                            Convert your text into different letter cases.
+                        </p>
+
+                    </div>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Enter Text
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="text"
+                                rows="8"
+                                required>{{ text }}</textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Conversion
+                            </label>
+
+                            <select class="form-select"
+                                    name="case_type">
+
+                                <option value="uppercase"
+                                    {% if case_type == "uppercase" %}
+                                    selected
+                                    {% endif %}>
+                                    UPPERCASE
+                                </option>
+
+                                <option value="lowercase"
+                                    {% if case_type == "lowercase" %}
+                                    selected
+                                    {% endif %}>
+                                    lowercase
+                                </option>
+
+                                <option value="title"
+                                    {% if case_type == "title" %}
+                                    selected
+                                    {% endif %}>
+                                    Title Case
+                                </option>
+
+                                <option value="capitalize"
+                                    {% if case_type == "capitalize" %}
+                                    selected
+                                    {% endif %}>
+                                    Capitalize
+                                </option>
+
+                                <option value="swapcase"
+                                    {% if case_type == "swapcase" %}
+                                    selected
+                                    {% endif %}>
+                                    sWAP cASE
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Convert Text
+                        </button>
+
+                    </form>
+
+                    {% if result is not none %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Result
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            rows="8"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+.tool-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+    font-size: 1.8rem;
+}
+</style>
+
+{% endblock %}

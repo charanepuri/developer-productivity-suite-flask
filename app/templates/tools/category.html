@@ -8,19 +8,28 @@
 
 <div class="container py-5">
 
+    <!-- Category Header -->
     <div class="mb-5">
+
         <a href="{{ url_for('tools.index') }}"
            class="btn btn-outline-secondary mb-4">
-            <i class="bi bi-arrow-left"></i>
+
+            <i class="bi bi-arrow-left me-1"></i>
+
             All Tools
+
         </a>
 
         <div class="d-flex align-items-center gap-3">
+
             <div class="category-icon">
+
                 <i class="bi {{ category.icon }}"></i>
+
             </div>
 
             <div>
+
                 <h1 class="fw-bold mb-1">
                     {{ category.name }}
                 </h1>
@@ -28,37 +37,125 @@
                 <p class="text-secondary mb-0">
                     {{ category.description }}
                 </p>
+
             </div>
+
         </div>
+
     </div>
 
+
+    <!-- Tools Grid -->
     <div class="row g-4">
 
         {% for tool in tools %}
 
         <div class="col-md-6 col-lg-4">
 
-            <div class="card h-100 shadow-sm border-0 tool-card">
+            <div class="card h-100 border-0 shadow-sm tool-card">
 
-                <div class="card-body p-4">
+                <div class="card-body p-4 d-flex flex-column">
 
+                    <!-- Tool Icon -->
                     <div class="tool-icon mb-3">
+
                         <i class="bi bi-tools"></i>
+
                     </div>
 
-                    <h5 class="fw-bold">
+
+                    <!-- Tool Name -->
+                    <h5 class="fw-bold mb-2">
+
                         {{ tool.name }}
+
                     </h5>
 
-                    <p class="text-secondary">
+
+                    <!-- Tool Description -->
+                    <p class="text-secondary mb-4">
+
                         {{ tool.description }}
+
                     </p>
 
-                    <a href="{{ url_for('tools.tool_detail', slug=tool.slug) }}"
-                       class="btn btn-primary">
-                        Open Tool
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+
+                    <!-- Tool Action -->
+                    <div class="mt-auto">
+
+                        {% if tool.slug in [
+                            "word-counter",
+                            "character-counter",
+                            "case-converter",
+                            "remove-duplicate-lines",
+                            "text-sorter",
+                            "text-reverser"
+                        ] %}
+
+                            <!-- Implemented Tool -->
+
+                            <a href="{{ url_for(
+                                'tools.' + {
+                                    'word-counter': 'word_counter',
+                                    'character-counter': 'character_counter',
+                                    'case-converter': 'case_converter',
+                                    'remove-duplicate-lines': 'duplicate_lines',
+                                    'text-sorter': 'text_sorter',
+                                    'text-reverser': 'text_reverser'
+                                }[tool.slug]
+                            ) }}"
+                               class="btn btn-primary">
+
+                                <i class="bi bi-play-circle me-1"></i>
+
+                                Open Tool
+
+                                <i class="bi bi-arrow-right ms-1"></i>
+
+                            </a>
+
+
+                            <!-- Available Badge -->
+
+                            <span class="badge text-bg-success ms-2">
+
+                                <i class="bi bi-check-circle me-1"></i>
+
+                                Available
+
+                            </span>
+
+
+                        {% else %}
+
+                            <!-- Coming Soon Tool -->
+
+                            <a href="{{ url_for(
+                                'tools.tool_detail',
+                                slug=tool.slug
+                            ) }}"
+                               class="btn btn-outline-primary">
+
+                                <i class="bi bi-info-circle me-1"></i>
+
+                                View Details
+
+                            </a>
+
+
+                            <!-- Coming Soon Badge -->
+
+                            <span class="badge text-bg-secondary ms-2">
+
+                                <i class="bi bi-clock me-1"></i>
+
+                                Coming Soon
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
@@ -68,10 +165,18 @@
 
         {% else %}
 
+        <!-- Empty Category -->
+
         <div class="col-12">
-            <div class="alert alert-info">
+
+            <div class="alert alert-info text-center py-4">
+
+                <i class="bi bi-info-circle me-2"></i>
+
                 No tools are currently available in this category.
+
             </div>
+
         </div>
 
         {% endfor %}
@@ -80,28 +185,101 @@
 
 </div>
 
+
+<!-- Page-Specific Styles -->
+
 <style>
+
 .category-icon,
 .tool-icon {
+
     width: 52px;
     height: 52px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     border-radius: 14px;
+
     background: var(--bs-primary-bg-subtle);
+
     color: var(--bs-primary);
+
     font-size: 1.4rem;
+
 }
+
+
+.category-icon {
+
+    width: 64px;
+    height: 64px;
+
+    font-size: 1.7rem;
+
+}
+
 
 .tool-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
 }
 
+
 .tool-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10) !important;
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.10) !important;
+
 }
+
+
+.tool-card .btn {
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.tool-card .btn:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+.badge {
+
+    font-weight: 500;
+
+}
+
+
+@media (max-width: 576px) {
+
+    .category-header {
+
+        align-items: flex-start;
+
+    }
+
+    .tool-card .card-body {
+
+        padding: 1.25rem !important;
+
+    }
+
+}
+
 </style>
 
 {% endblock %}

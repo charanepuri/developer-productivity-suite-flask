@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Remove Duplicate Lines | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="mb-4">
+                <a href="{{ url_for('tools.category_detail',
+                                    slug='text-tools') }}"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    Text Tools
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-filter"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            Remove Duplicate Lines
+                        </h1>
+
+                        <p class="text-secondary">
+                            Remove repeated lines while preserving order.
+                        </p>
+
+                    </div>
+
+                    <form method="POST">
+
+                        <textarea
+                            class="form-control mb-3"
+                            name="text"
+                            rows="12"
+                            placeholder="Enter one item per line..."
+                            required>{{ text }}</textarea>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            <i class="bi bi-filter"></i>
+                            Remove Duplicates
+                        </button>
+
+                    </form>
+
+                    {% if result is not none %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Result
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            rows="12"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+.tool-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+    font-size: 1.8rem;
+}
+</style>
+
+{% endblock %}
