@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+Random Token Generator | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='security-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                Security Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-key"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            Random Token Generator
+                        </h1>
+
+                        <p class="text-secondary">
+                            Generate cryptographically secure random tokens.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <label class="form-label fw-semibold">
+                            Token Length
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control mb-3"
+                            name="length"
+                            min="8"
+                            max="256"
+                            value="{{ length }}"
+                            required>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-shuffle me-1"></i>
+
+                            Generate Token
+
+                        </button>
+
+                    </form>
+
+
+                    {% if error %}
+
+                    <div class="alert alert-danger mt-4">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if result %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Generated Token
+                        </label>
+
+                        <textarea
+                            class="form-control token-output"
+                            rows="5"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.token-output {
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    word-break: break-all;
+
+}
+
+</style>
+
+{% endblock %}

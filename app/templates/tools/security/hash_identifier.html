@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hash Identifier | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='security-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                Security Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-fingerprint"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            Hash Identifier
+                        </h1>
+
+                        <p class="text-secondary">
+                            Identify possible hash algorithms from hexadecimal length.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <label class="form-label fw-semibold">
+                            Hash Value
+                        </label>
+
+                        <textarea
+                            class="form-control hash-input mb-3"
+                            name="hash_value"
+                            rows="4"
+                            placeholder="Paste a hash value..."
+                            required>{{ hash_value }}</textarea>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-search me-1"></i>
+
+                            Identify Hash
+
+                        </button>
+
+                    </form>
+
+
+                    {% if result %}
+
+                    <div class="mt-4">
+
+                        {% if result.valid_format %}
+
+                            <div class="alert alert-success">
+
+                                <strong>
+                                    Hexadecimal format detected.
+                                </strong>
+
+                                <br>
+
+                                Length:
+                                {{ result.length }}
+
+                            </div>
+
+
+                            {% if result.possible_algorithms %}
+
+                            <h5 class="fw-bold">
+                                Possible Algorithms
+                            </h5>
+
+                            <div class="d-flex flex-wrap gap-2">
+
+                                {% for algorithm in result.possible_algorithms %}
+
+                                <span class="badge text-bg-primary">
+                                    {{ algorithm }}
+                                </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                            <p class="text-secondary mt-3 small">
+                                Identification is based on common digest
+                                lengths and does not prove which algorithm
+                                produced the value.
+                            </p>
+
+                            {% else %}
+
+                            <div class="alert alert-warning mt-3">
+
+                                No common algorithm could be identified
+                                from the supplied length.
+
+                            </div>
+
+                            {% endif %}
+
+                        {% else %}
+
+                        <div class="alert alert-danger">
+
+                            The supplied value is not a hexadecimal hash
+                            format.
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.hash-input {
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+}
+
+</style>
+
+{% endblock %}

@@ -21,6 +21,15 @@ from app.tools.services.json_tools import (
     validate_json,
 )
 
+from app.tools.services.security_tools import (
+    check_password_strength,
+    generate_hash,
+    generate_password,
+    generate_random_token,
+    generate_uuid,
+    identify_hash,
+)
+
 from . import tools_bp
 
 
@@ -108,6 +117,26 @@ def tool_detail(slug):
 
         "json-escape-unescape":
             "tools/json/json_escape_unescape.html",
+            
+        # Security Tools
+
+            "password-generator":
+                "tools/security/password_generator.html",
+
+            "password-strength-checker":
+                "tools/security/password_strength_checker.html",
+
+            "hash-generator":
+                "tools/security/hash_generator.html",
+
+            "hash-identifier":
+                "tools/security/hash_identifier.html",
+
+            "uuid-generator":
+                "tools/security/uuid_generator.html",
+
+            "random-token-generator":
+                "tools/security/random_token_generator.html",
     }
 
     template = template_map.get(
@@ -475,3 +504,249 @@ def json_escape_unescape():
         error=error,
         operation=operation,
     )
+    
+@tools_bp.route(
+    "/password-generator",
+    methods=["GET", "POST"],
+)
+def password_generator():
+    """Password Generator tool."""
+
+    password = None
+    error = None
+
+    length = 16
+    use_uppercase = True
+    use_lowercase = True
+    use_digits = True
+    use_symbols = True
+
+    if request.method == "POST":
+
+        length = request.form.get(
+            "length",
+            "16",
+        )
+
+        use_uppercase = (
+            request.form.get("use_uppercase")
+            == "on"
+        )
+
+        use_lowercase = (
+            request.form.get("use_lowercase")
+            == "on"
+        )
+
+        use_digits = (
+            request.form.get("use_digits")
+            == "on"
+        )
+
+        use_symbols = (
+            request.form.get("use_symbols")
+            == "on"
+        )
+
+        try:
+
+            password = generate_password(
+                length=length,
+                use_uppercase=use_uppercase,
+                use_lowercase=use_lowercase,
+                use_digits=use_digits,
+                use_symbols=use_symbols,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/security/password_generator.html",
+        tool_name="Password Generator",
+        password=password,
+        error=error,
+        length=length,
+        use_uppercase=use_uppercase,
+        use_lowercase=use_lowercase,
+        use_digits=use_digits,
+        use_symbols=use_symbols,
+    )
+    
+@tools_bp.route(
+    "/password-strength-checker",
+    methods=["GET", "POST"],
+)
+def password_strength_checker():
+    """Password Strength Checker tool."""
+
+    password = ""
+    result = None
+
+    if request.method == "POST":
+
+        password = request.form.get(
+            "password",
+            "",
+        )
+
+        result = check_password_strength(
+            password
+        )
+
+    return render_template(
+        "tools/security/password_strength_checker.html",
+        tool_name="Password Strength Checker",
+        password=password,
+        result=result,
+    )
+    
+@tools_bp.route(
+    "/hash-generator",
+    methods=["GET", "POST"],
+)
+def hash_generator():
+    """Hash Generator tool."""
+
+    text = ""
+    algorithm = "sha256"
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        text = request.form.get(
+            "text",
+            "",
+        )
+
+        algorithm = request.form.get(
+            "algorithm",
+            "sha256",
+        )
+
+        try:
+
+            result = generate_hash(
+                text,
+                algorithm,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/security/hash_generator.html",
+        tool_name="Hash Generator",
+        text=text,
+        algorithm=algorithm,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/hash-identifier",
+    methods=["GET", "POST"],
+)
+def hash_identifier():
+    """Hash Identifier tool."""
+
+    hash_value = ""
+    result = None
+
+    if request.method == "POST":
+
+        hash_value = request.form.get(
+            "hash_value",
+            "",
+        )
+
+        result = identify_hash(
+            hash_value
+        )
+
+    return render_template(
+        "tools/security/hash_identifier.html",
+        tool_name="Hash Identifier",
+        hash_value=hash_value,
+        result=result,
+    )
+    
+@tools_bp.route(
+    "/uuid-generator",
+    methods=["GET", "POST"],
+)
+def uuid_generator():
+    """UUID Generator tool."""
+
+    version = "4"
+    count = 1
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        version = request.form.get(
+            "version",
+            "4",
+        )
+
+        count = request.form.get(
+            "count",
+            "1",
+        )
+
+        try:
+
+            result = generate_uuid(
+                version=version,
+                count=count,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/security/uuid_generator.html",
+        tool_name="UUID Generator",
+        version=version,
+        count=count,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/random-token-generator",
+    methods=["GET", "POST"],
+)
+def random_token_generator():
+    """Random Token Generator tool."""
+
+    length = 32
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        length = request.form.get(
+            "length",
+            "32",
+        )
+
+        try:
+
+            result = generate_random_token(
+                length
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/security/random_token_generator.html",
+        tool_name="Random Token Generator",
+        length=length,
+        result=result,
+        error=error,
+    )
+    
