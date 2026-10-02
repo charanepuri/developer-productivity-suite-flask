@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Markdown to HTML{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Markdown Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Markdown to HTML
+        </h1>
+
+        <p class="text-secondary">
+            Convert Markdown content into HTML.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <label class="form-label fw-semibold">
+                    Markdown
+                </label>
+
+                <textarea
+                    name="markdown_content"
+                    class="form-control"
+                    rows="14"
+                    placeholder="# Hello World
+
+This is **Markdown**."
+                >{{ markdown_content }}</textarea>
+
+                <button class="btn btn-primary mt-4">
+                    Convert to HTML
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if html_output is not none %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>HTML Output</strong>
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control"
+                    rows="14"
+                    readonly
+                >{{ html_output }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

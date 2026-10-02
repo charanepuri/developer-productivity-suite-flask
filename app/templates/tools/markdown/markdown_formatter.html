@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Markdown Formatter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Markdown Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Markdown Formatter
+        </h1>
+
+        <p class="text-secondary">
+            Normalize Markdown spacing, headings and list formatting.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Input</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <textarea
+                            name="markdown_content"
+                            class="form-control"
+                            rows="20"
+                            placeholder="##Heading
+
+* Item one
++ Item two"
+                        >{{ markdown_content }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Formatted Markdown</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <textarea
+                            class="form-control"
+                            rows="20"
+                            readonly
+                        >{{ formatted_content or '' }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button class="btn btn-primary px-4">
+                Format Markdown
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

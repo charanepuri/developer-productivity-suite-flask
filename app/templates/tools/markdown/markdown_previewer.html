@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Markdown Previewer{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Markdown Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Markdown Previewer
+        </h1>
+
+        <p class="text-secondary">
+            Convert Markdown into a readable live-style preview.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <label class="form-label fw-semibold">
+                    Markdown Input
+                </label>
+
+                <textarea
+                    name="markdown_content"
+                    class="form-control"
+                    rows="12"
+                    placeholder="# Heading
+
+**Bold text**
+
+- Item one
+- Item two"
+                >{{ markdown_content }}</textarea>
+
+                <button class="btn btn-primary mt-4">
+                    Preview Markdown
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if preview_html %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Rendered Preview</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="markdown-preview">
+                    {{ preview_html|safe }}
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+<style>
+    .markdown-preview {
+        line-height: 1.8;
+    }
+
+    .markdown-preview pre {
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: var(--bs-tertiary-bg);
+        overflow-x: auto;
+    }
+</style>
+
+{% endblock %}

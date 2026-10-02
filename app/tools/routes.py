@@ -48,6 +48,14 @@ from app.tools.services.color_tools import (
     normalize_hex,
 )
 
+from app.tools.services.markdown_tools import (
+    markdown_to_html,
+    format_markdown,
+    generate_markdown_table,
+    parse_table_input,
+    create_markdown_document,
+)
+
 from . import tools_bp
 
 
@@ -1230,3 +1238,138 @@ def gradient_generator():
         gradient_type=gradient_type,
         direction=direction,
     )
+    
+@tools_bp.route(
+    "/markdown-editor",
+    methods=["GET", "POST"],
+)
+def markdown_editor():
+    markdown_content = ""
+    preview_html = None
+
+    if request.method == "POST":
+        markdown_content = request.form.get(
+            "markdown_content",
+            "",
+        )
+
+        preview_html = markdown_to_html(
+            markdown_content
+        )
+
+    return render_template(
+        "tools/markdown/markdown_editor.html",
+        markdown_content=markdown_content,
+        preview_html=preview_html,
+    )
+    
+@tools_bp.route(
+    "/markdown-previewer",
+    methods=["GET", "POST"],
+)
+def markdown_previewer():
+    markdown_content = ""
+    preview_html = None
+
+    if request.method == "POST":
+        markdown_content = request.form.get(
+            "markdown_content",
+            "",
+        )
+
+        preview_html = markdown_to_html(
+            markdown_content
+        )
+
+    return render_template(
+        "tools/markdown/markdown_previewer.html",
+        markdown_content=markdown_content,
+        preview_html=preview_html,
+    )
+    
+@tools_bp.route(
+    "/markdown-to-html",
+    methods=["GET", "POST"],
+)
+def markdown_to_html_tool():
+    markdown_content = ""
+    html_output = None
+
+    if request.method == "POST":
+        markdown_content = request.form.get(
+            "markdown_content",
+            "",
+        )
+
+        html_output = markdown_to_html(
+            markdown_content
+        )
+
+    return render_template(
+        "tools/markdown/markdown_to_html.html",
+        markdown_content=markdown_content,
+        html_output=html_output,
+    )
+    
+@tools_bp.route(
+    "/markdown-formatter",
+    methods=["GET", "POST"],
+)
+def markdown_formatter():
+    markdown_content = ""
+    formatted_content = None
+
+    if request.method == "POST":
+        markdown_content = request.form.get(
+            "markdown_content",
+            "",
+        )
+
+        formatted_content = format_markdown(
+            markdown_content
+        )
+
+    return render_template(
+        "tools/markdown/markdown_formatter.html",
+        markdown_content=markdown_content,
+        formatted_content=formatted_content,
+    )
+    
+@tools_bp.route(
+    "/markdown-table-generator",
+    methods=["GET", "POST"],
+)
+def markdown_table_generator():
+    headers_text = ""
+    rows_text = ""
+    table_output = None
+
+    if request.method == "POST":
+        headers_text = request.form.get(
+            "headers",
+            "",
+        )
+
+        rows_text = request.form.get(
+            "rows",
+            "",
+        )
+
+        headers, rows = parse_table_input(
+            headers_text,
+            rows_text,
+        )
+
+        if headers:
+            table_output = generate_markdown_table(
+                headers,
+                rows,
+            )
+
+    return render_template(
+        "tools/markdown/markdown_table_generator.html",
+        headers_text=headers_text,
+        rows_text=rows_text,
+        table_output=table_output,
+    )
+    

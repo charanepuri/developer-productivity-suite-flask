@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Markdown Editor{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge text-bg-primary mb-3">
+            Markdown Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Markdown Editor
+        </h1>
+
+        <p class="text-secondary">
+            Write Markdown and preview the rendered result.
+        </p>
+    </div>
+
+    <form method="POST">
+
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Markdown</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <textarea
+                            name="markdown_content"
+                            class="form-control"
+                            rows="22"
+                            placeholder="# Hello World
+
+Write your Markdown here..."
+                        >{{ markdown_content }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Preview</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        {% if preview_html %}
+
+                            <div class="markdown-preview">
+                                {{ preview_html|safe }}
+                            </div>
+
+                        {% else %}
+
+                            <p class="text-secondary">
+                                Your rendered Markdown will appear here.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button class="btn btn-primary px-4">
+                Render Markdown
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<style>
+    .markdown-preview {
+        line-height: 1.8;
+    }
+
+    .markdown-preview pre {
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: var(--bs-tertiary-bg);
+        overflow-x: auto;
+    }
+
+    .markdown-preview code {
+        font-family: monospace;
+    }
+</style>
+
+{% endblock %}
