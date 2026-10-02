@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}URL Encoder / Decoder{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Encoding Tools
+        </span>
+
+        <h1 class="fw-bold">
+            URL Encoder / Decoder
+        </h1>
+
+        <p class="text-secondary">
+            Encode URL components or decode percent-encoded text.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Operation
+                    </label>
+
+                    <select
+                        name="operation"
+                        class="form-select"
+                    >
+
+                        <option
+                            value="encode"
+                            {% if operation == "encode" %}
+                                selected
+                            {% endif %}
+                        >
+                            Encode
+                        </option>
+
+                        <option
+                            value="decode"
+                            {% if operation == "decode" %}
+                                selected
+                            {% endif %}
+                        >
+                            Decode
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Input
+                    </label>
+
+                    <textarea
+                        name="input_text"
+                        class="form-control font-monospace"
+                        rows="10"
+                        placeholder="https://example.com/search?q=hello world"
+                    >{{ input_text }}</textarea>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Process
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if output_text is not none %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Output</strong>
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control font-monospace"
+                    rows="10"
+                    readonly
+                >{{ output_text }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

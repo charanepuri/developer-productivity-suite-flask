@@ -84,6 +84,15 @@ from app.tools.services.api_tools import (
     format_api_response,
 )
 
+from app.tools.services.encoding_tools import (
+    base64_encode,
+    base64_decode,
+    url_encode,
+    url_decode,
+    html_entity_encode,
+    html_entity_decode,
+)
+
 from . import tools_bp
 
 
@@ -1993,3 +2002,130 @@ def api_response_formatter():
         result=result,
     )
     
+@tools_bp.route(
+    "/base64-encoder-decoder",
+    methods=["GET", "POST"],
+)
+def base64_encoder_decoder():
+    input_text = ""
+    output_text = None
+    operation = "encode"
+    error = None
+
+    if request.method == "POST":
+
+        input_text = request.form.get(
+            "input_text",
+            "",
+        )
+
+        operation = request.form.get(
+            "operation",
+            "encode",
+        )
+
+        try:
+
+            if operation == "decode":
+
+                output_text = base64_decode(
+                    input_text
+                )
+
+            else:
+
+                output_text = base64_encode(
+                    input_text
+                )
+
+        except ValueError as exc:
+
+            error = str(exc)
+
+    return render_template(
+        "tools/encoding/base64_encoder_decoder.html",
+        input_text=input_text,
+        output_text=output_text,
+        operation=operation,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/url-encoder-decoder",
+    methods=["GET", "POST"],
+)
+def url_encoder_decoder():
+    input_text = ""
+    output_text = None
+    operation = "encode"
+
+    if request.method == "POST":
+
+        input_text = request.form.get(
+            "input_text",
+            "",
+        )
+
+        operation = request.form.get(
+            "operation",
+            "encode",
+        )
+
+        if operation == "decode":
+
+            output_text = url_decode(
+                input_text
+            )
+
+        else:
+
+            output_text = url_encode(
+                input_text
+            )
+
+    return render_template(
+        "tools/encoding/url_encoder_decoder.html",
+        input_text=input_text,
+        output_text=output_text,
+        operation=operation,
+    )
+    
+@tools_bp.route(
+    "/html-entity-encoder-decoder",
+    methods=["GET", "POST"],
+)
+def html_entity_encoder_decoder():
+    input_text = ""
+    output_text = None
+    operation = "encode"
+
+    if request.method == "POST":
+
+        input_text = request.form.get(
+            "input_text",
+            "",
+        )
+
+        operation = request.form.get(
+            "operation",
+            "encode",
+        )
+
+        if operation == "decode":
+
+            output_text = html_entity_decode(
+                input_text
+            )
+
+        else:
+
+            output_text = html_entity_encode(
+                input_text
+            )
+
+    return render_template(
+        "tools/encoding/html_entity_encoder_decoder.html",
+        input_text=input_text,
+        output_text=output_text,
+        operation=operation,
+    )
