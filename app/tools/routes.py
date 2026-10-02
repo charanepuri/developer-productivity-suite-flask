@@ -30,6 +30,14 @@ from app.tools.services.security_tools import (
     identify_hash,
 )
 
+from app.tools.services.css_tools import (
+    format_css,
+    generate_box_shadow,
+    generate_flexbox,
+    generate_gradient,
+    minify_css,
+)
+
 from . import tools_bp
 
 
@@ -137,6 +145,25 @@ def tool_detail(slug):
 
             "random-token-generator":
                 "tools/security/random_token_generator.html",
+                
+            # CSS Tools
+
+            "css-minifier":
+                "tools/css/css_minifier.html",
+
+            "css-formatter":
+                "tools/css/css_formatter.html",
+
+            "css-box-shadow-generator":
+                "tools/css/css_box_shadow_generator.html",
+
+            "css-gradient-generator":
+                "tools/css/css_gradient_generator.html",
+
+            "css-flexbox-generator":
+                "tools/css/css_flexbox_generator.html",
+                
+            
     }
 
     template = template_map.get(
@@ -746,6 +773,274 @@ def random_token_generator():
         "tools/security/random_token_generator.html",
         tool_name="Random Token Generator",
         length=length,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/css-minifier",
+    methods=["GET", "POST"],
+)
+def css_minifier():
+    """CSS Minifier tool."""
+
+    text = ""
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        text = request.form.get(
+            "text",
+            "",
+        )
+
+        try:
+            result = minify_css(text)
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/css/css_minifier.html",
+        tool_name="CSS Minifier",
+        text=text,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/css-formatter",
+    methods=["GET", "POST"],
+)
+def css_formatter():
+    """CSS Formatter tool."""
+
+    text = ""
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        text = request.form.get(
+            "text",
+            "",
+        )
+
+        try:
+            result = format_css(text)
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/css/css_formatter.html",
+        tool_name="CSS Formatter",
+        text=text,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/css-box-shadow-generator",
+    methods=["GET", "POST"],
+)
+def css_box_shadow_generator():
+    """CSS Box Shadow Generator."""
+
+    horizontal = 0
+    vertical = 10
+    blur = 20
+    spread = 0
+    color = "rgba(0, 0, 0, 0.2)"
+    inset = False
+
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        horizontal = request.form.get(
+            "horizontal",
+            "0",
+        )
+
+        vertical = request.form.get(
+            "vertical",
+            "10",
+        )
+
+        blur = request.form.get(
+            "blur",
+            "20",
+        )
+
+        spread = request.form.get(
+            "spread",
+            "0",
+        )
+
+        color = request.form.get(
+            "color",
+            "rgba(0, 0, 0, 0.2)",
+        )
+
+        inset = (
+            request.form.get("inset")
+            == "on"
+        )
+
+        try:
+
+            result = generate_box_shadow(
+                horizontal=horizontal,
+                vertical=vertical,
+                blur=blur,
+                spread=spread,
+                color=color,
+                inset=inset,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/css/css_box_shadow_generator.html",
+        tool_name="CSS Box Shadow Generator",
+        horizontal=horizontal,
+        vertical=vertical,
+        blur=blur,
+        spread=spread,
+        color=color,
+        inset=inset,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/css-gradient-generator",
+    methods=["GET", "POST"],
+)
+def css_gradient_generator():
+    """CSS Gradient Generator."""
+
+    gradient_type = "linear"
+    direction = "to right"
+    color1 = "#6a11cb"
+    color2 = "#2575fc"
+
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        gradient_type = request.form.get(
+            "gradient_type",
+            "linear",
+        )
+
+        direction = request.form.get(
+            "direction",
+            "to right",
+        )
+
+        color1 = request.form.get(
+            "color1",
+            "#6a11cb",
+        )
+
+        color2 = request.form.get(
+            "color2",
+            "#2575fc",
+        )
+
+        try:
+
+            result = generate_gradient(
+                gradient_type=gradient_type,
+                direction=direction,
+                color1=color1,
+                color2=color2,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/css/css_gradient_generator.html",
+        tool_name="CSS Gradient Generator",
+        gradient_type=gradient_type,
+        direction=direction,
+        color1=color1,
+        color2=color2,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/css-flexbox-generator",
+    methods=["GET", "POST"],
+)
+def css_flexbox_generator():
+    """CSS Flexbox Generator."""
+
+    direction = "row"
+    justify_content = "flex-start"
+    align_items = "stretch"
+    flex_wrap = "nowrap"
+    gap = 0
+
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        direction = request.form.get(
+            "direction",
+            "row",
+        )
+
+        justify_content = request.form.get(
+            "justify_content",
+            "flex-start",
+        )
+
+        align_items = request.form.get(
+            "align_items",
+            "stretch",
+        )
+
+        flex_wrap = request.form.get(
+            "flex_wrap",
+            "nowrap",
+        )
+
+        gap = request.form.get(
+            "gap",
+            "0",
+        )
+
+        try:
+
+            result = generate_flexbox(
+                direction=direction,
+                justify_content=justify_content,
+                align_items=align_items,
+                flex_wrap=flex_wrap,
+                gap=gap,
+            )
+
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/css/css_flexbox_generator.html",
+        tool_name="CSS Flexbox Generator",
+        direction=direction,
+        justify_content=justify_content,
+        align_items=align_items,
+        flex_wrap=flex_wrap,
+        gap=gap,
         result=result,
         error=error,
     )

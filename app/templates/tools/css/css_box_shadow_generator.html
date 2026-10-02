@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}
+CSS Box Shadow Generator | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='css-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                CSS Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-square"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            CSS Box Shadow Generator
+                        </h1>
+
+                        <p class="text-secondary">
+                            Generate a CSS box-shadow declaration.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Horizontal Offset
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="horizontal"
+                                    value="{{ horizontal }}">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Vertical Offset
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="vertical"
+                                    value="{{ vertical }}">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Blur
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="blur"
+                                    min="0"
+                                    value="{{ blur }}">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Spread
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="spread"
+                                    value="{{ spread }}">
+
+                            </div>
+
+
+                            <div class="col-12">
+
+                                <label class="form-label">
+                                    Shadow Color
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="color"
+                                    value="{{ color }}">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-check my-4">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="inset"
+                                id="inset"
+                                {% if inset %}checked{% endif %}>
+
+                            <label
+                                class="form-check-label"
+                                for="inset">
+
+                                Inset Shadow
+
+                            </label>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-magic me-1"></i>
+                            Generate Shadow
+
+                        </button>
+
+                    </form>
+
+
+                    {% if error %}
+
+                    <div class="alert alert-danger mt-4">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if result %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Generated CSS
+                        </label>
+
+                        <textarea
+                            class="form-control code-input"
+                            rows="3"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.code-input {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+</style>
+
+{% endblock %}

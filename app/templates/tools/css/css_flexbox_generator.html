@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block title %}
+CSS Flexbox Generator | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='css-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                CSS Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-layout-three-columns"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            CSS Flexbox Generator
+                        </h1>
+
+                        <p class="text-secondary">
+                            Generate a ready-to-use Flexbox container.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Flex Direction
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="direction">
+
+                                {% for value in [
+                                    "row",
+                                    "row-reverse",
+                                    "column",
+                                    "column-reverse"
+                                ] %}
+
+                                <option value="{{ value }}"
+                                    {% if direction == value %}
+                                    selected
+                                    {% endif %}>
+
+                                    {{ value }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Justify Content
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="justify_content">
+
+                                {% for value in [
+                                    "flex-start",
+                                    "center",
+                                    "flex-end",
+                                    "space-between",
+                                    "space-around",
+                                    "space-evenly"
+                                ] %}
+
+                                <option value="{{ value }}"
+                                    {% if justify_content == value %}
+                                    selected
+                                    {% endif %}>
+
+                                    {{ value }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Align Items
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="align_items">
+
+                                {% for value in [
+                                    "stretch",
+                                    "flex-start",
+                                    "center",
+                                    "flex-end",
+                                    "baseline"
+                                ] %}
+
+                                <option value="{{ value }}"
+                                    {% if align_items == value %}
+                                    selected
+                                    {% endif %}>
+
+                                    {{ value }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="row g-3 mb-4">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Flex Wrap
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="flex_wrap">
+
+                                    {% for value in [
+                                        "nowrap",
+                                        "wrap",
+                                        "wrap-reverse"
+                                    ] %}
+
+                                    <option value="{{ value }}"
+                                        {% if flex_wrap == value %}
+                                        selected
+                                        {% endif %}>
+
+                                        {{ value }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Gap (px)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="gap"
+                                    min="0"
+                                    value="{{ gap }}">
+
+                            </div>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-code-square me-1"></i>
+                            Generate Flexbox CSS
+
+                        </button>
+
+                    </form>
+
+
+                    {% if error %}
+
+                    <div class="alert alert-danger mt-4">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if result %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Generated CSS
+                        </label>
+
+                        <textarea
+                            class="form-control code-input"
+                            rows="10"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.code-input {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+</style>
+
+{% endblock %}

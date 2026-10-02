@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+CSS Formatter | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='css-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                CSS Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-code-square"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            CSS Formatter
+                        </h1>
+
+                        <p class="text-secondary">
+                            Format CSS into a clean, readable structure.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <label class="form-label fw-semibold">
+                            CSS Input
+                        </label>
+
+                        <textarea
+                            class="form-control code-input mb-3"
+                            name="text"
+                            rows="14"
+                            required>{{ text }}</textarea>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-code-square me-1"></i>
+                            Format CSS
+
+                        </button>
+
+                    </form>
+
+
+                    {% if error %}
+
+                    <div class="alert alert-danger mt-4">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if result is not none %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Formatted CSS
+                        </label>
+
+                        <textarea
+                            class="form-control code-input"
+                            rows="14"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.code-input {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+</style>
+
+{% endblock %}

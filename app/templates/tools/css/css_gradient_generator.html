@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}
+CSS Gradient Generator | Developer Productivity Suite
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <a href="{{ url_for(
+                'tools.category_detail',
+                slug='css-tools'
+            ) }}"
+               class="btn btn-outline-secondary mb-4">
+
+                <i class="bi bi-arrow-left me-1"></i>
+                CSS Tools
+
+            </a>
+
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="tool-icon mx-auto mb-3">
+                            <i class="bi bi-palette"></i>
+                        </div>
+
+                        <h1 class="fw-bold">
+                            CSS Gradient Generator
+                        </h1>
+
+                        <p class="text-secondary">
+                            Generate linear and radial CSS gradients.
+                        </p>
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Gradient Type
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="gradient_type">
+
+                                <option value="linear"
+                                    {% if gradient_type == "linear" %}
+                                    selected
+                                    {% endif %}>
+                                    Linear
+                                </option>
+
+                                <option value="radial"
+                                    {% if gradient_type == "radial" %}
+                                    selected
+                                    {% endif %}>
+                                    Radial
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Direction
+                            </label>
+
+                            <select
+                                class="form-select"
+                                name="direction">
+
+                                <option value="to right"
+                                    {% if direction == "to right" %}
+                                    selected
+                                    {% endif %}>
+                                    To Right
+                                </option>
+
+                                <option value="to left"
+                                    {% if direction == "to left" %}
+                                    selected
+                                    {% endif %}>
+                                    To Left
+                                </option>
+
+                                <option value="to bottom"
+                                    {% if direction == "to bottom" %}
+                                    selected
+                                    {% endif %}>
+                                    To Bottom
+                                </option>
+
+                                <option value="to top"
+                                    {% if direction == "to top" %}
+                                    selected
+                                    {% endif %}>
+                                    To Top
+                                </option>
+
+                                <option value="to bottom right"
+                                    {% if direction == "to bottom right" %}
+                                    selected
+                                    {% endif %}>
+                                    To Bottom Right
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="row g-3 mb-4">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Color 1
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="color1"
+                                    value="{{ color1 }}">
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Color 2
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="color2"
+                                    value="{{ color2 }}">
+
+                            </div>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-palette me-1"></i>
+                            Generate Gradient
+
+                        </button>
+
+                    </form>
+
+
+                    {% if error %}
+
+                    <div class="alert alert-danger mt-4">
+                        {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    {% if result %}
+
+                    <div class="mt-4">
+
+                        <label class="form-label fw-semibold">
+                            Generated CSS
+                        </label>
+
+                        <textarea
+                            class="form-control code-input"
+                            rows="3"
+                            readonly>{{ result }}</textarea>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.tool-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.8rem;
+}
+
+.code-input {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+</style>
+
+{% endblock %}
