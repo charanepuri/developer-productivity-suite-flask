@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}HTTP Status Code Lookup{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            API Tools
+        </span>
+
+        <h1 class="fw-bold">
+            HTTP Status Code Lookup
+        </h1>
+
+        <p class="text-secondary">
+            Look up the meaning of an HTTP status code.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <label class="form-label fw-semibold">
+                    HTTP Status Code
+                </label>
+
+                <input
+                    type="number"
+                    name="status_code"
+                    class="form-control"
+                    value="{{ status_code }}"
+                    placeholder="404"
+                    min="100"
+                    max="599"
+                    required
+                >
+
+                <button class="btn btn-primary mt-4">
+                    Lookup
+                </button>
+
+            </form>
+
+            {% if result %}
+
+                <hr class="my-4">
+
+                <div class="text-center">
+
+                    <div class="display-3 fw-bold">
+                        {{ status_code }}
+                    </div>
+
+                    <h3>
+                        {{ result.name }}
+                    </h3>
+
+                    <span class="badge text-bg-secondary">
+                        {{ result.category }}
+                    </span>
+
+                    <p class="text-secondary mt-3 mb-0">
+                        {{ result.description }}
+                    </p>
+
+                </div>
+
+            {% elif status_code %}
+
+                <div class="alert alert-warning mt-4 mb-0">
+                    No entry is available for this status code.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

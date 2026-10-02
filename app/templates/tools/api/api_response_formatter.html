@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}API Response Formatter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            API Tools
+        </span>
+
+        <h1 class="fw-bold">
+            API Response Formatter
+        </h1>
+
+        <p class="text-secondary">
+            Format and inspect JSON API responses.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <label class="form-label fw-semibold">
+                    API Response
+                </label>
+
+                <textarea
+                    name="response"
+                    class="form-control font-monospace"
+                    rows="14"
+                    placeholder='{"name":"Charan","role":"Developer"}'
+                    required
+                >{{ response_text }}</textarea>
+
+                <button class="btn btn-primary mt-4">
+                    Format Response
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if result %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+
+                <strong>
+                    Formatted Output
+                </strong>
+
+                {% if result.success %}
+
+                    <span class="badge text-bg-success ms-2">
+                        {{ result.format }}
+                    </span>
+
+                {% else %}
+
+                    <span class="badge text-bg-warning ms-2">
+                        {{ result.format }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <div class="card-body">
+
+                {% if result.error %}
+
+                    <div class="alert alert-warning">
+                        {{ result.error }}
+                    </div>
+
+                {% endif %}
+
+                <textarea
+                    class="form-control font-monospace"
+                    rows="16"
+                    readonly
+                >{{ result.output }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

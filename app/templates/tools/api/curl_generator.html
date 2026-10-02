@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}cURL Generator{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            API Tools
+        </span>
+
+        <h1 class="fw-bold">
+            cURL Generator
+        </h1>
+
+        <p class="text-secondary">
+            Generate a cURL command from HTTP request details.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-semibold">
+                            Method
+                        </label>
+
+                        <select
+                            name="method"
+                            class="form-select"
+                        >
+
+                            {% for http_method in [
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "PATCH",
+                                "DELETE"
+                            ] %}
+
+                                <option
+                                    value="{{ http_method }}"
+                                    {% if method == http_method %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ http_method }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <label class="form-label fw-semibold">
+                            URL
+                        </label>
+
+                        <input
+                            type="url"
+                            name="url"
+                            class="form-control"
+                            value="{{ url }}"
+                            placeholder="https://api.example.com/users"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <label class="form-label fw-semibold">
+                        Headers
+                    </label>
+
+                    <textarea
+                        name="headers"
+                        class="form-control font-monospace"
+                        rows="5"
+                        placeholder="Content-Type: application/json
+Authorization: Bearer TOKEN"
+                    >{{ headers_text }}</textarea>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <label class="form-label fw-semibold">
+                        Request Body
+                    </label>
+
+                    <textarea
+                        name="body"
+                        class="form-control font-monospace"
+                        rows="7"
+                        placeholder='{"name":"Charan"}'
+                    >{{ body_text }}</textarea>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Generate cURL
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if error %}
+
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+    {% if curl_command %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Generated cURL</strong>
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control font-monospace"
+                    rows="7"
+                    readonly
+                >{{ curl_command }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

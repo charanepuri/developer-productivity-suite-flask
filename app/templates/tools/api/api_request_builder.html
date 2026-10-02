@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}API Request Builder{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            API Tools
+        </span>
+
+        <h1 class="fw-bold">
+            API Request Builder
+        </h1>
+
+        <p class="text-secondary">
+            Send HTTP requests and inspect API responses.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-semibold">
+                            Method
+                        </label>
+
+                        <select
+                            name="method"
+                            class="form-select"
+                        >
+
+                            {% for http_method in [
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "PATCH",
+                                "DELETE"
+                            ] %}
+
+                                <option
+                                    value="{{ http_method }}"
+                                    {% if method == http_method %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ http_method }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <label class="form-label fw-semibold">
+                            URL
+                        </label>
+
+                        <input
+                            type="url"
+                            name="url"
+                            class="form-control"
+                            value="{{ url }}"
+                            placeholder="https://api.example.com/data"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <label class="form-label fw-semibold">
+                        Headers
+                    </label>
+
+                    <textarea
+                        name="headers"
+                        class="form-control font-monospace"
+                        rows="5"
+                        placeholder="Accept: application/json
+Authorization: Bearer YOUR_TOKEN"
+                    >{{ headers_text }}</textarea>
+
+                    <div class="form-text">
+                        Enter one header per line.
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <label class="form-label fw-semibold">
+                        Request Body
+                    </label>
+
+                    <textarea
+                        name="body"
+                        class="form-control font-monospace"
+                        rows="8"
+                        placeholder='{"name": "Charan"}'
+                    >{{ body_text }}</textarea>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Send Request
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if error %}
+
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+    {% if result %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+
+                <strong>
+                    Response
+                </strong>
+
+                <span class="badge text-bg-secondary ms-2">
+                    {{ result.status_code }}
+                    {{ result.reason }}
+                </span>
+
+                <span class="badge text-bg-info ms-2">
+                    {{ result.elapsed }}s
+                </span>
+
+            </div>
+
+            <div class="card-body">
+
+                <h6 class="fw-bold">
+                    Response Headers
+                </h6>
+
+                <pre class="p-3 rounded-3 bg-body-tertiary overflow-auto"><code>{{ result.headers | tojson(indent=2) }}</code></pre>
+
+                <h6 class="fw-bold mt-4">
+                    Response Body
+                </h6>
+
+                <textarea
+                    class="form-control font-monospace"
+                    rows="15"
+                    readonly
+                >{{ result.body }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

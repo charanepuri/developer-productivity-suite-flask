@@ -75,6 +75,15 @@ from app.tools.services.date_time_tools import (
     calculate_age,
 )
 
+from app.tools.services.api_tools import (
+    parse_headers,
+    parse_request_body,
+    make_api_request,
+    get_status_code_info,
+    generate_curl_command,
+    format_api_response,
+)
+
 from . import tools_bp
 
 
@@ -1805,5 +1814,182 @@ def age_calculator():
         error=error,
         birth_date=birth_date,
         reference_date=reference_date,
+    )
+    
+@tools_bp.route(
+    "/api-request-builder",
+    methods=["GET", "POST"],
+)
+def api_request_builder():
+    url = ""
+    method = "GET"
+    headers_text = ""
+    body_text = ""
+
+    result = None
+    error = None
+
+    if request.method == "POST":
+
+        url = request.form.get(
+            "url",
+            "",
+        ).strip()
+
+        method = request.form.get(
+            "method",
+            "GET",
+        ).upper()
+
+        headers_text = request.form.get(
+            "headers",
+            "",
+        )
+
+        body_text = request.form.get(
+            "body",
+            "",
+        )
+
+        try:
+            headers = parse_headers(
+                headers_text
+            )
+
+            body = parse_request_body(
+                body_text
+            )
+
+            result = make_api_request(
+                url=url,
+                method=method,
+                headers=headers,
+                body=body,
+            )
+
+        except Exception as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/api/api_request_builder.html",
+        url=url,
+        method=method,
+        headers_text=headers_text,
+        body_text=body_text,
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/http-status-code-lookup",
+    methods=["GET", "POST"],
+)
+def http_status_code_lookup():
+    status_code = ""
+    result = None
+
+    if request.method == "POST":
+
+        status_code = request.form.get(
+            "status_code",
+            "",
+        )
+
+        result = get_status_code_info(
+            status_code
+        )
+
+    return render_template(
+        "tools/api/http_status_code_lookup.html",
+        status_code=status_code,
+        result=result,
+    )
+    
+@tools_bp.route(
+    "/curl-generator",
+    methods=["GET", "POST"],
+)
+def curl_generator():
+    url = ""
+    method = "GET"
+    headers_text = ""
+    body_text = ""
+    curl_command = None
+    error = None
+
+    if request.method == "POST":
+
+        url = request.form.get(
+            "url",
+            "",
+        ).strip()
+
+        method = request.form.get(
+            "method",
+            "GET",
+        ).upper()
+
+        headers_text = request.form.get(
+            "headers",
+            "",
+        )
+
+        body_text = request.form.get(
+            "body",
+            "",
+        )
+
+        try:
+            headers = parse_headers(
+                headers_text
+            )
+
+            body = parse_request_body(
+                body_text
+            )
+
+            curl_command = generate_curl_command(
+                url=url,
+                method=method,
+                headers=headers,
+                body=body,
+            )
+
+        except Exception as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/api/curl_generator.html",
+        url=url,
+        method=method,
+        headers_text=headers_text,
+        body_text=body_text,
+        curl_command=curl_command,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/api-response-formatter",
+    methods=["GET", "POST"],
+)
+def api_response_formatter():
+    response_text = ""
+    result = None
+
+    if request.method == "POST":
+
+        response_text = request.form.get(
+            "response",
+            "",
+        )
+
+        result = format_api_response(
+            response_text
+        )
+
+    return render_template(
+        "tools/api/api_response_formatter.html",
+        response_text=response_text,
+        result=result,
     )
     
