@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Unix Timestamp Converter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Date & Time Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Unix Timestamp Converter
+        </h1>
+
+        <p class="text-secondary">
+            Convert Unix timestamps and UTC datetime values.
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+                        Unix Timestamp → UTC
+                    </h5>
+
+                    <form method="POST">
+
+                        <input
+                            type="hidden"
+                            name="conversion_type"
+                            value="timestamp_to_datetime"
+                        >
+
+                        <label class="form-label">
+                            Unix Timestamp
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="timestamp"
+                            class="form-control"
+                            placeholder="0"
+                            required
+                        >
+
+                        <button class="btn btn-primary mt-3">
+                            Convert
+                        </button>
+
+                    </form>
+
+                    {% if timestamp_result %}
+
+                        <div class="alert alert-success mt-4">
+
+                            <strong>UTC:</strong>
+
+                            <div class="mt-2">
+                                {{ timestamp_result }}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+                        UTC → Unix Timestamp
+                    </h5>
+
+                    <form method="POST">
+
+                        <input
+                            type="hidden"
+                            name="conversion_type"
+                            value="datetime_to_timestamp"
+                        >
+
+                        <label class="form-label">
+                            ISO Datetime
+                        </label>
+
+                        <input
+                            type="text"
+                            name="datetime"
+                            class="form-control"
+                            placeholder="2026-10-02T12:00:00+00:00"
+                            required
+                        >
+
+                        <button class="btn btn-primary mt-3">
+                            Convert
+                        </button>
+
+                    </form>
+
+                    {% if datetime_result is not none %}
+
+                        <div class="alert alert-success mt-4">
+
+                            <strong>Unix Timestamp:</strong>
+
+                            <div class="mt-2">
+                                {{ datetime_result }}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if error %}
+
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

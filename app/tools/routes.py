@@ -66,6 +66,15 @@ from app.tools.services.developer_tools import (
     format_code,
 )
 
+from app.tools.services.date_time_tools import (
+    timestamp_to_datetime,
+    datetime_to_timestamp,
+    calculate_date_difference,
+    get_timezone_names,
+    convert_timezone,
+    calculate_age,
+)
+
 from . import tools_bp
 
 
@@ -1599,5 +1608,202 @@ def code_formatter():
         formatted_code=formatted_code,
         language=language,
         error=error,
+    )
+    
+@tools_bp.route(
+    "/unix-timestamp-converter",
+    methods=["GET", "POST"],
+)
+def unix_timestamp_converter():
+    timestamp_result = None
+    datetime_result = None
+    error = None
+
+    if request.method == "POST":
+
+        conversion_type = request.form.get(
+            "conversion_type",
+            "timestamp_to_datetime",
+        )
+
+        try:
+
+            if conversion_type == "timestamp_to_datetime":
+
+                timestamp = request.form.get(
+                    "timestamp",
+                    "",
+                )
+
+                timestamp_result = (
+                    timestamp_to_datetime(timestamp)
+                )
+
+            else:
+
+                date_string = request.form.get(
+                    "datetime",
+                    "",
+                )
+
+                datetime_result = (
+                    datetime_to_timestamp(
+                        date_string
+                    )
+                )
+
+        except (
+            ValueError,
+            TypeError,
+            OverflowError,
+        ) as exc:
+
+            error = str(exc)
+
+    return render_template(
+        "tools/date_time/unix_timestamp_converter.html",
+        timestamp_result=timestamp_result,
+        datetime_result=datetime_result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/date-difference-calculator",
+    methods=["GET", "POST"],
+)
+def date_difference_calculator():
+    result = None
+    error = None
+
+    start_date = ""
+    end_date = ""
+
+    if request.method == "POST":
+
+        start_date = request.form.get(
+            "start_date",
+            "",
+        )
+
+        end_date = request.form.get(
+            "end_date",
+            "",
+        )
+
+        try:
+
+            result = calculate_date_difference(
+                start_date,
+                end_date,
+            )
+
+        except ValueError as exc:
+
+            error = str(exc)
+
+    return render_template(
+        "tools/date_time/date_difference_calculator.html",
+        result=result,
+        error=error,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    
+@tools_bp.route(
+    "/time-zone-converter",
+    methods=["GET", "POST"],
+)
+def time_zone_converter():
+    result = None
+    error = None
+
+    timezones = get_timezone_names()
+
+    date_string = ""
+    source_timezone = "Asia/Kolkata"
+    target_timezone = "UTC"
+
+    if request.method == "POST":
+
+        date_string = request.form.get(
+            "datetime",
+            "",
+        )
+
+        source_timezone = request.form.get(
+            "source_timezone",
+            "Asia/Kolkata",
+        )
+
+        target_timezone = request.form.get(
+            "target_timezone",
+            "UTC",
+        )
+
+        try:
+
+            result = convert_timezone(
+                date_string,
+                source_timezone,
+                target_timezone,
+            )
+
+        except (
+            ValueError,
+            KeyError,
+        ) as exc:
+
+            error = str(exc)
+
+    return render_template(
+        "tools/date_time/time_zone_converter.html",
+        result=result,
+        error=error,
+        timezones=timezones,
+        date_string=date_string,
+        source_timezone=source_timezone,
+        target_timezone=target_timezone,
+    )
+    
+@tools_bp.route(
+    "/age-calculator",
+    methods=["GET", "POST"],
+)
+def age_calculator():
+    result = None
+    error = None
+
+    birth_date = ""
+    reference_date = ""
+
+    if request.method == "POST":
+
+        birth_date = request.form.get(
+            "birth_date",
+            "",
+        )
+
+        reference_date = request.form.get(
+            "reference_date",
+            "",
+        )
+
+        try:
+
+            result = calculate_age(
+                birth_date,
+                reference_date or None,
+            )
+
+        except ValueError as exc:
+
+            error = str(exc)
+
+    return render_template(
+        "tools/date_time/age_calculator.html",
+        result=result,
+        error=error,
+        birth_date=birth_date,
+        reference_date=reference_date,
     )
     

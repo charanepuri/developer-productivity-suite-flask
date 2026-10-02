@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Time Zone Converter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Date & Time Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Time Zone Converter
+        </h1>
+
+        <p class="text-secondary">
+            Convert a date and time between different time zones.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Date & Time
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        name="datetime"
+                        class="form-control"
+                        value="{{ date_string }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Source Time Zone
+                        </label>
+
+                        <select
+                            name="source_timezone"
+                            class="form-select"
+                        >
+
+                            {% for timezone_name in timezones %}
+
+                                <option
+                                    value="{{ timezone_name }}"
+                                    {% if source_timezone == timezone_name %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ timezone_name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Target Time Zone
+                        </label>
+
+                        <select
+                            name="target_timezone"
+                            class="form-select"
+                        >
+
+                            {% for timezone_name in timezones %}
+
+                                <option
+                                    value="{{ timezone_name }}"
+                                    {% if target_timezone == timezone_name %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ timezone_name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Convert Time
+                </button>
+
+            </form>
+
+            {% if result %}
+
+                <hr class="my-4">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="p-4 rounded-4 bg-body-tertiary">
+
+                            <small class="text-secondary">
+                                Source
+                            </small>
+
+                            <h5 class="fw-bold mt-2">
+                                {{ result.source_formatted }}
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="p-4 rounded-4 bg-body-tertiary">
+
+                            <small class="text-secondary">
+                                Converted
+                            </small>
+
+                            <h5 class="fw-bold mt-2">
+                                {{ result.target_formatted }}
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if error %}
+
+                <div class="alert alert-danger mt-4 mb-0">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
