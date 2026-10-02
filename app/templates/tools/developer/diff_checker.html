@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Diff Checker{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Developer Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Diff Checker
+        </h1>
+
+        <p class="text-secondary">
+            Compare two text versions and inspect their differences.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Original</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <textarea
+                            name="original_text"
+                            class="form-control font-monospace"
+                            rows="14"
+                            placeholder="Original text..."
+                        >{{ original_text }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-transparent">
+                        <strong>Modified</strong>
+                    </div>
+
+                    <div class="card-body">
+
+                        <textarea
+                            name="modified_text"
+                            class="form-control font-monospace"
+                            rows="14"
+                            placeholder="Modified text..."
+                        >{{ modified_text }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button class="btn btn-primary px-4">
+                Compare Text
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if diff_html %}
+
+        <div class="card border-0 shadow-sm mt-5">
+
+            <div class="card-header bg-transparent">
+                <strong>Comparison Result</strong>
+            </div>
+
+            <div class="card-body table-responsive">
+
+                {{ diff_html|safe }}
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

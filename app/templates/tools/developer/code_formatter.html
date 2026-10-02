@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Code Formatter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Developer Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Code Formatter
+        </h1>
+
+        <p class="text-secondary">
+            Format source code into a cleaner structure.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Language
+                    </label>
+
+                    <select
+                        name="language"
+                        class="form-select"
+                    >
+
+                        <option
+                            value="python"
+                            {% if language == "python" %}
+                                selected
+                            {% endif %}
+                        >
+                            Python
+                        </option>
+
+                        <option
+                            value="json"
+                            {% if language == "json" %}
+                                selected
+                            {% endif %}
+                        >
+                            JSON
+                        </option>
+
+                        <option
+                            value="javascript"
+                            {% if language == "javascript" %}
+                                selected
+                            {% endif %}
+                        >
+                            JavaScript
+                        </option>
+
+                        <option
+                            value="css"
+                            {% if language == "css" %}
+                                selected
+                            {% endif %}
+                        >
+                            CSS
+                        </option>
+
+                        <option
+                            value="html"
+                            {% if language == "html" %}
+                                selected
+                            {% endif %}
+                        >
+                            HTML
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <label class="form-label fw-semibold">
+                    Source Code
+                </label>
+
+                <textarea
+                    name="code"
+                    class="form-control font-monospace"
+                    rows="16"
+                    placeholder="Paste your code here..."
+                >{{ code }}</textarea>
+
+                <button class="btn btn-primary mt-4">
+                    Format Code
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if error %}
+
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+    {% if formatted_code is not none %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Formatted Code</strong>
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control font-monospace"
+                    rows="16"
+                    readonly
+                >{{ formatted_code }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

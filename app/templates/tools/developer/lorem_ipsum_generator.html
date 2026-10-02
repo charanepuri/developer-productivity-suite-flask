@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Lorem Ipsum Generator{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Developer Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Lorem Ipsum Generator
+        </h1>
+
+        <p class="text-secondary">
+            Generate placeholder text for your projects and designs.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Paragraphs
+                        </label>
+
+                        <input
+                            type="number"
+                            name="paragraphs"
+                            class="form-control"
+                            min="1"
+                            max="20"
+                            value="{{ paragraphs }}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Sentences Per Paragraph
+                        </label>
+
+                        <input
+                            type="number"
+                            name="sentences"
+                            class="form-control"
+                            min="1"
+                            max="20"
+                            value="{{ sentences }}"
+                        >
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Generate Text
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% if generated_text %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Generated Text</strong>
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control"
+                    rows="16"
+                    readonly
+                >{{ generated_text }}</textarea>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

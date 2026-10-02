@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Regex Tester{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge text-bg-primary mb-3">
+            Developer Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Regex Tester
+        </h1>
+
+        <p class="text-secondary">
+            Test regular expressions against sample text.
+        </p>
+    </div>
+
+    <form method="POST">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Regular Expression
+                    </label>
+
+                    <input
+                        type="text"
+                        name="pattern"
+                        class="form-control font-monospace"
+                        value="{{ pattern }}"
+                        placeholder="^[A-Za-z0-9._%+-]+@..."
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Test Text
+                    </label>
+
+                    <textarea
+                        name="text"
+                        class="form-control font-monospace"
+                        rows="8"
+                        placeholder="Enter text to test..."
+                    >{{ text }}</textarea>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Test Regex
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% if result %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-header bg-transparent">
+                <strong>Results</strong>
+            </div>
+
+            <div class="card-body">
+
+                {% if result.valid %}
+
+                    <div class="alert alert-success">
+                        Valid regular expression.
+                        {{ result.count }} match(es) found.
+                    </div>
+
+                    {% if result.matches %}
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle">
+
+                                <thead>
+                                    <tr>
+                                        <th>Match</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for match in result.matches %}
+
+                                        <tr>
+                                            <td>
+                                                <code>
+                                                    {{ match.match }}
+                                                </code>
+                                            </td>
+
+                                            <td>
+                                                {{ match.start }}
+                                            </td>
+
+                                            <td>
+                                                {{ match.end }}
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <div class="alert alert-danger">
+                        {{ result.error }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}QR Code Generator{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Developer Tools
+        </span>
+
+        <h1 class="fw-bold">
+            QR Code Generator
+        </h1>
+
+        <p class="text-secondary">
+            Generate a QR code from text, URLs or other data.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <label class="form-label fw-semibold">
+                    Text or URL
+                </label>
+
+                <textarea
+                    name="data"
+                    class="form-control"
+                    rows="5"
+                    placeholder="https://example.com"
+                    required
+                >{{ qr_data }}</textarea>
+
+                <button class="btn btn-primary mt-4">
+                    Generate QR Code
+                </button>
+
+            </form>
+
+            {% if qr_generated %}
+
+                <hr class="my-4">
+
+                <div class="text-center">
+
+                    <img
+                        src="{{ url_for(
+                            'tools.qr_code_image',
+                            data=qr_data
+                        ) }}"
+                        alt="Generated QR Code"
+                        class="img-fluid border rounded-3 p-2"
+                        style="max-width: 320px;"
+                    >
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{{ url_for(
+                                'tools.qr_code_image',
+                                data=qr_data
+                            ) }}"
+                            class="btn btn-outline-primary"
+                            download="qr-code.png"
+                        >
+                            Download QR Code
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

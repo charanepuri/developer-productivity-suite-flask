@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request , send_file
 
 from app.models import Category, Tool
 
@@ -54,6 +54,16 @@ from app.tools.services.markdown_tools import (
     generate_markdown_table,
     parse_table_input,
     create_markdown_document,
+)
+
+from app.tools.services.developer_tools import (
+    test_regex,
+    timestamp_to_datetime,
+    datetime_to_timestamp,
+    generate_lorem,
+    generate_qr_code,
+    compare_texts,
+    format_code,
 )
 
 from . import tools_bp
@@ -1371,5 +1381,223 @@ def markdown_table_generator():
         headers_text=headers_text,
         rows_text=rows_text,
         table_output=table_output,
+    )
+    
+@tools_bp.route(
+    "/regex-tester",
+    methods=["GET", "POST"],
+)
+def regex_tester():
+    pattern = ""
+    text = ""
+    result = None
+
+    if request.method == "POST":
+        pattern = request.form.get(
+            "pattern",
+            "",
+        )
+
+        text = request.form.get(
+            "text",
+            "",
+        )
+
+        result = test_regex(
+            pattern,
+            text,
+        )
+
+    return render_template(
+        "tools/developer/regex_tester.html",
+        pattern=pattern,
+        text=text,
+        result=result,
+    )
+    
+@tools_bp.route(
+    "/timestamp-converter",
+    methods=["GET", "POST"],
+)
+def timestamp_converter():
+    timestamp_result = None
+    datetime_result = None
+    error = None
+
+    if request.method == "POST":
+
+        conversion_type = request.form.get(
+            "conversion_type",
+            "timestamp_to_datetime",
+        )
+
+        try:
+            if conversion_type == "timestamp_to_datetime":
+
+                timestamp = request.form.get(
+                    "timestamp",
+                    "",
+                )
+
+                timestamp_result = timestamp_to_datetime(
+                    timestamp
+                )
+
+            else:
+
+                date_string = request.form.get(
+                    "datetime",
+                    "",
+                )
+
+                datetime_result = datetime_to_timestamp(
+                    date_string
+                )
+
+        except (ValueError, TypeError, OverflowError) as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/developer/timestamp_converter.html",
+        timestamp_result=timestamp_result,
+        datetime_result=datetime_result,
+        error=error,
+    )
+    
+@tools_bp.route(
+    "/lorem-ipsum-generator",
+    methods=["GET", "POST"],
+)
+def lorem_ipsum_generator():
+    generated_text = None
+    paragraphs = 2
+    sentences = 3
+
+    if request.method == "POST":
+
+        try:
+            paragraphs = int(
+                request.form.get(
+                    "paragraphs",
+                    2,
+                )
+            )
+
+            sentences = int(
+                request.form.get(
+                    "sentences",
+                    3,
+                )
+            )
+
+        except ValueError:
+            paragraphs = 2
+            sentences = 3
+
+        generated_text = generate_lorem(
+            paragraphs,
+            sentences,
+        )
+
+    return render_template(
+        "tools/developer/lorem_ipsum_generator.html",
+        generated_text=generated_text,
+        paragraphs=paragraphs,
+        sentences=sentences,
+    )
+    
+@tools_bp.route(
+    "/qr-code-generator",
+    methods=["GET", "POST"],
+)
+def qr_code_generator():
+    qr_data = ""
+    qr_generated = False
+
+    if request.method == "POST":
+
+        qr_data = request.form.get(
+            "data",
+            "",
+        ).strip()
+
+        if qr_data:
+            qr_generated = True
+
+    return render_template(
+        "tools/developer/qr_code_generator.html",
+        qr_data=qr_data,
+        qr_generated=qr_generated,
+    )
+    
+@tools_bp.route(
+    "/diff-checker",
+    methods=["GET", "POST"],
+)
+def diff_checker():
+    original_text = ""
+    modified_text = ""
+    diff_html = None
+
+    if request.method == "POST":
+
+        original_text = request.form.get(
+            "original_text",
+            "",
+        )
+
+        modified_text = request.form.get(
+            "modified_text",
+            "",
+        )
+
+        diff_html = compare_texts(
+            original_text,
+            modified_text,
+        )
+
+    return render_template(
+        "tools/developer/diff_checker.html",
+        original_text=original_text,
+        modified_text=modified_text,
+        diff_html=diff_html,
+    )
+    
+@tools_bp.route(
+    "/code-formatter",
+    methods=["GET", "POST"],
+)
+def code_formatter():
+    code = ""
+    formatted_code = None
+    language = "python"
+    error = None
+
+    if request.method == "POST":
+
+        code = request.form.get(
+            "code",
+            "",
+        )
+
+        language = request.form.get(
+            "language",
+            "python",
+        )
+
+        result = format_code(
+            code,
+            language,
+        )
+
+        formatted_code = result["code"]
+        error = result["error"]
+
+    return render_template(
+        "tools/developer/code_formatter.html",
+        code=code,
+        formatted_code=formatted_code,
+        language=language,
+        error=error,
     )
     
