@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Color Picker{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge text-bg-primary mb-3">
+            Color Tools
+        </span>
+
+        <h1 class="fw-bold">Color Picker</h1>
+
+        <p class="text-secondary">
+            Pick a color and inspect its color values.
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Select Color
+                    </label>
+
+                    <div class="d-flex gap-3 align-items-center">
+
+                        <input
+                            type="color"
+                            name="color"
+                            value="{{ selected_color }}"
+                            class="form-control form-control-color"
+                        >
+
+                        <span class="fw-semibold">
+                            {{ selected_color }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Inspect Color
+                </button>
+
+            </form>
+
+            {% if color_info %}
+
+                <hr class="my-4">
+
+                <div
+                    class="rounded-4 mb-4"
+                    style="
+                        height: 160px;
+                        background: {{ color_info.hex }};
+                    "
+                ></div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>HEX</strong>
+                            <p class="mb-0 mt-2">
+                                {{ color_info.hex }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>RGB</strong>
+                            <p class="mb-0 mt-2">
+                                {{ color_info.rgb }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>HSL</strong>
+                            <p class="mb-0 mt-2">
+                                {{ color_info.hsl }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

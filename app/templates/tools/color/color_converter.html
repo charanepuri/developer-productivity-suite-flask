@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Color Converter{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="tool-header text-center mb-5">
+        <span class="badge text-bg-primary mb-3">
+            Color Tools
+        </span>
+
+        <h1 class="fw-bold">Color Converter</h1>
+
+        <p class="text-secondary">
+            Convert HEX colors into RGB and HSL formats.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        HEX Color
+                    </label>
+
+                    <input
+                        type="text"
+                        name="color"
+                        class="form-control form-control-lg"
+                        placeholder="#6A11CB"
+                        value="{{ request.form.get('color', '#6A11CB') }}"
+                        required
+                    >
+                </div>
+
+                <button class="btn btn-primary">
+                    Convert Color
+                </button>
+
+            </form>
+
+            {% if error %}
+                <div class="alert alert-danger mt-4">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            {% if result %}
+
+                <hr class="my-4">
+
+                <div
+                    class="rounded-4 mb-4"
+                    style="
+                        height: 120px;
+                        background: {{ result.hex }};
+                    "
+                ></div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>HEX</strong>
+                            <div class="mt-2">
+                                {{ result.hex }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>RGB</strong>
+                            <div class="mt-2">
+                                {{ result.rgb }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+                            <strong>HSL</strong>
+                            <div class="mt-2">
+                                {{ result.hsl }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

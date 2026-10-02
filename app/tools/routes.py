@@ -38,6 +38,16 @@ from app.tools.services.css_tools import (
     minify_css,
 )
 
+from app.tools.services.color_tools import (
+    convert_color,
+    generate_palette,
+    generate_random_palette,
+    contrast_ratio,
+    contrast_level,
+    generate_gradient,
+    normalize_hex,
+)
+
 from . import tools_bp
 
 
@@ -1045,3 +1055,178 @@ def css_flexbox_generator():
         error=error,
     )
     
+@tools_bp.route("/color-converter", methods=["GET", "POST"])
+def color_converter():
+    result = None
+    error = None
+
+    if request.method == "POST":
+        color = request.form.get("color", "").strip()
+
+        try:
+            result = convert_color(color)
+        except ValueError as exc:
+            error = str(exc)
+
+    return render_template(
+        "tools/color/color_converter.html",
+        result=result,
+        error=error,
+    )
+    
+@tools_bp.route("/color-picker", methods=["GET", "POST"])
+def color_picker():
+    selected_color = "#6A11CB"
+    color_info = None
+
+    if request.method == "POST":
+        selected_color = request.form.get(
+            "color",
+            "#6A11CB",
+        )
+
+        try:
+            color_info = convert_color(selected_color)
+        except ValueError:
+            color_info = None
+
+    return render_template(
+        "tools/color/color_picker.html",
+        selected_color=selected_color,
+        color_info=color_info,
+    )
+    
+@tools_bp.route(
+    "/color-palette-generator",
+    methods=["GET", "POST"],
+)
+def color_palette_generator():
+    palette = None
+    base_color = "#6A11CB"
+    count = 5
+    mode = "base"
+
+    if request.method == "POST":
+        mode = request.form.get("mode", "base")
+
+        try:
+            count = int(request.form.get("count", 5))
+            count = max(2, min(count, 10))
+        except ValueError:
+            count = 5
+
+        if mode == "random":
+            palette = generate_random_palette(count)
+        else:
+            base_color = request.form.get(
+                "base_color",
+                "#6A11CB",
+            )
+
+            try:
+                palette = generate_palette(
+                    base_color,
+                    count,
+                )
+            except ValueError:
+                palette = None
+
+    return render_template(
+        "tools/color/color_palette_generator.html",
+        palette=palette,
+        base_color=base_color,
+        count=count,
+        mode=mode,
+    )
+    
+@tools_bp.route(
+    "/contrast-checker",
+    methods=["GET", "POST"],
+)
+def contrast_checker():
+    result = None
+    foreground = "#FFFFFF"
+    background = "#000000"
+
+    if request.method == "POST":
+        foreground = request.form.get(
+            "foreground",
+            "#FFFFFF",
+        )
+
+        background = request.form.get(
+            "background",
+            "#000000",
+        )
+
+        try:
+            ratio = contrast_ratio(
+                foreground,
+                background,
+            )
+
+            result = {
+                "ratio": ratio,
+                "level": contrast_level(ratio),
+            }
+        except ValueError:
+            result = None
+
+    return render_template(
+        "tools/color/contrast_checker.html",
+        result=result,
+        foreground=foreground,
+        background=background,
+    )
+    
+@tools_bp.route(
+    "/gradient-generator",
+    methods=["GET", "POST"],
+)
+def gradient_generator():
+    result = None
+
+    color1 = "#6A11CB"
+    color2 = "#2575FC"
+    gradient_type = "linear"
+    direction = "to right"
+
+    if request.method == "POST":
+        color1 = request.form.get(
+            "color1",
+            "#6A11CB",
+        )
+
+        color2 = request.form.get(
+            "color2",
+            "#2575FC",
+        )
+
+        gradient_type = request.form.get(
+            "gradient_type",
+            "linear",
+        )
+
+        direction = request.form.get(
+            "direction",
+            "to right",
+        )
+
+        try:
+            result = generate_gradient(
+                color1,
+                color2,
+                gradient_type,
+                direction,
+            )
+        except ValueError:
+            result = None
+
+    return render_template(
+        "tools/color/gradient_generator.html",
+        result=result,
+        color1=color1,
+        color2=color2,
+        gradient_type=gradient_type,
+        direction=direction,
+    )

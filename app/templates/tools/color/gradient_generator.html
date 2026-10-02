@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Gradient Generator{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Color Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Gradient Generator
+        </h1>
+
+        <p class="text-secondary">
+            Create CSS linear and radial gradients.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Color 1
+                        </label>
+
+                        <input
+                            type="color"
+                            name="color1"
+                            value="{{ color1 }}"
+                            class="form-control form-control-color"
+                        >
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Color 2
+                        </label>
+
+                        <input
+                            type="color"
+                            name="color2"
+                            value="{{ color2 }}"
+                            class="form-control form-control-color"
+                        >
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Gradient Type
+                        </label>
+
+                        <select
+                            name="gradient_type"
+                            class="form-select"
+                        >
+
+                            <option
+                                value="linear"
+                                {% if gradient_type == "linear" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Linear
+                            </option>
+
+                            <option
+                                value="radial"
+                                {% if gradient_type == "radial" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Radial
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Direction
+                        </label>
+
+                        <select
+                            name="direction"
+                            class="form-select"
+                        >
+
+                            <option value="to right">
+                                To Right
+                            </option>
+
+                            <option value="to left">
+                                To Left
+                            </option>
+
+                            <option value="to bottom">
+                                To Bottom
+                            </option>
+
+                            <option value="to top">
+                                To Top
+                            </option>
+
+                            <option value="to bottom right">
+                                To Bottom Right
+                            </option>
+
+                            <option value="to bottom left">
+                                To Bottom Left
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Generate Gradient
+                </button>
+
+            </form>
+
+            {% if result %}
+
+                <hr class="my-4">
+
+                <div
+                    class="rounded-4 shadow-sm"
+                    style="
+                        min-height: 220px;
+                        background: {{ result.css }};
+                    "
+                ></div>
+
+                <div class="mt-4">
+
+                    <label class="form-label fw-semibold">
+                        CSS
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="3"
+                        readonly
+                    >{{ result.property }}</textarea>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

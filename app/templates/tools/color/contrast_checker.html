@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Contrast Checker{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <span class="badge text-bg-primary mb-3">
+            Color Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Contrast Checker
+        </h1>
+
+        <p class="text-secondary">
+            Check the contrast ratio between foreground
+            and background colors.
+        </p>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Foreground
+                        </label>
+
+                        <div class="d-flex gap-3 align-items-center">
+
+                            <input
+                                type="color"
+                                name="foreground"
+                                value="{{ foreground }}"
+                                class="form-control form-control-color"
+                            >
+
+                            <span>
+                                {{ foreground }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Background
+                        </label>
+
+                        <div class="d-flex gap-3 align-items-center">
+
+                            <input
+                                type="color"
+                                name="background"
+                                value="{{ background }}"
+                                class="form-control form-control-color"
+                            >
+
+                            <span>
+                                {{ background }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary mt-4">
+                    Check Contrast
+                </button>
+
+            </form>
+
+            {% if result %}
+
+                <hr class="my-4">
+
+                <div
+                    class="rounded-4 p-5 text-center"
+                    style="
+                        color: {{ foreground }};
+                        background: {{ background }};
+                    "
+                >
+
+                    <h2 class="fw-bold">
+                        Sample Text
+                    </h2>
+
+                    <p class="mb-0">
+                        Contrast preview
+                    </p>
+
+                </div>
+
+                <div class="text-center mt-4">
+
+                    <h2 class="fw-bold">
+                        {{ result.ratio }} : 1
+                    </h2>
+
+                    <p class="text-secondary">
+                        Contrast Ratio
+                    </p>
+
+                </div>
+
+                <div class="row g-3 mt-2">
+
+                    <div class="col-md-6">
+
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+
+                            <strong>AA Normal Text</strong>
+
+                            <div class="mt-2">
+                                {% if result.level.aa_normal %}
+                                    <span class="badge text-bg-success">
+                                        Pass
+                                    </span>
+                                {% else %}
+                                    <span class="badge text-bg-danger">
+                                        Fail
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="p-3 rounded-3 bg-body-tertiary">
+
+                            <strong>AAA Normal Text</strong>
+
+                            <div class="mt-2">
+                                {% if result.level.aaa_normal %}
+                                    <span class="badge text-bg-success">
+                                        Pass
+                                    </span>
+                                {% else %}
+                                    <span class="badge text-bg-danger">
+                                        Fail
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Color Palette Generator{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge text-bg-primary mb-3">
+            Color Tools
+        </span>
+
+        <h1 class="fw-bold">
+            Color Palette Generator
+        </h1>
+
+        <p class="text-secondary">
+            Generate a color palette from a base color
+            or create a random palette.
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Palette Mode
+                    </label>
+
+                    <select
+                        name="mode"
+                        class="form-select"
+                    >
+                        <option
+                            value="base"
+                            {% if mode == "base" %}selected{% endif %}
+                        >
+                            Base Color
+                        </option>
+
+                        <option
+                            value="random"
+                            {% if mode == "random" %}selected{% endif %}
+                        >
+                            Random Colors
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Base Color
+                    </label>
+
+                    <input
+                        type="color"
+                        name="base_color"
+                        value="{{ base_color }}"
+                        class="form-control form-control-color"
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Number of Colors
+                    </label>
+
+                    <input
+                        type="number"
+                        name="count"
+                        class="form-control"
+                        min="2"
+                        max="10"
+                        value="{{ count }}"
+                    >
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Generate Palette
+                </button>
+
+            </form>
+
+            {% if palette %}
+
+                <hr class="my-4">
+
+                <div class="row g-3">
+
+                    {% for color in palette %}
+
+                        <div class="col-6 col-md-4 col-lg-2">
+
+                            <div
+                                class="rounded-4 shadow-sm"
+                                style="
+                                    height: 150px;
+                                    background: {{ color }};
+                                "
+                            ></div>
+
+                            <div class="text-center mt-2 fw-semibold">
+                                {{ color }}
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
