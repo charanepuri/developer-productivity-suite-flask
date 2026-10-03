@@ -411,127 +411,384 @@
 
     <!-- ================= FOOTER ================= -->
 
-    <footer class="app-footer">
+<footer class="dps-footer">
 
-        <div class="container">
+    <!-- Footer Header -->
+    <div class="container">
 
-            <div class="row g-4">
+        <div class="dps-footer-header text-center">
 
-                <div class="col-lg-5">
+            <h2 class="dps-footer-title">
+                Developer Productivity Suite
+            </h2>
 
-                    <div class="footer-brand">
+            <p class="dps-footer-version">
+                Version 4 • Flask Edition
+            </p>
 
-                        <span class="brand-icon">
-                            <i class="bi bi-braces"></i>
+        </div>
+
+
+        <!-- Footer Main Content -->
+        <div class="row g-5 dps-footer-main">
+
+            <!-- About -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="dps-footer-section">
+
+                    <h3 class="dps-footer-heading">
+                        About
+                    </h3>
+
+                    <p class="dps-footer-text">
+                        A backend-powered developer productivity platform
+                        designed to bring essential developer tools,
+                        productivity features, and workflow utilities
+                        together in one centralized application.
+                    </p>
+
+                    <p class="dps-footer-text mb-3">
+                        Built with:
+                    </p>
+
+                    <div class="dps-tech-stack">
+
+                        <span class="dps-tech-badge">
+                            Python
                         </span>
 
-                        <strong>
-                            Developer Productivity Suite
-                        </strong>
+                        <span class="dps-tech-badge">
+                            Flask
+                        </span>
+
+                        <span class="dps-tech-badge">
+                            SQLite
+                        </span>
+
+                        <span class="dps-tech-badge">
+                            SQLAlchemy
+                        </span>
+
+                        <span class="dps-tech-badge">
+                            Jinja2
+                        </span>
+
+                        <span class="dps-tech-badge">
+                            Bootstrap
+                        </span>
+
+                        <span class="dps-tech-badge">
+                            REST APIs
+                        </span>
 
                     </div>
 
-                    <p class="footer-description">
-                        A Flask-powered collection of developer
-                        productivity tools designed to simplify
-                        everyday development tasks.
+                    <p class="dps-footer-copyright">
+                        © {{ current_year }} Built by
+                        <strong>Epuri Charan Teja</strong>
                     </p>
-
-                </div>
-
-
-                <div class="col-6 col-lg-3">
-
-                    <h6>
-                        Platform
-                    </h6>
-
-                    <ul class="footer-links">
-
-                        <li>
-                            <a href="{{ url_for('main.home') }}">
-                                Home
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ url_for('tools.index') }}">
-                                Tools
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ url_for('api.index') }}">
-                                API
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-
-                <div class="col-6 col-lg-4">
-
-                    <h6>
-                        Project
-                    </h6>
-
-                    <ul class="footer-links">
-
-                        <li>
-                            <span>
-                                10 Categories
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>
-                                50 Developer Tools
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>
-                                Flask + SQLAlchemy
-                            </span>
-                        </li>
-
-                    </ul>
 
                 </div>
 
             </div>
 
 
-            <hr class="footer-divider">
+            <!-- Version History -->
+            <div class="col-lg-5 col-md-6">
+
+                <div class="dps-footer-section">
+
+                    <h3 class="dps-footer-heading">
+                        Version History
+                    </h3>
+
+                    <div class="dps-version-list">
+
+                        <!-- v1 -->
+                        <div class="dps-version-item">
+
+                            <span class="dps-version-label">
+                                v1.0
+                            </span>
+
+                            <div>
+                                <strong>
+                                    HTML/CSS/JS Foundation
+                                </strong>
+
+                                <a
+                                    href="https://charanepuri.github.io/developer-productivity-suite-html/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Project
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
 
 
-            <div
-                class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
-            >
+                        <!-- v2 -->
+                        <div class="dps-version-item">
 
-                <p class="mb-0 footer-copy">
+                            <span class="dps-version-label">
+                                v2.0
+                            </span>
 
-                    © {{ current_year }}
-                    Developer Productivity Suite
+                            <div>
+                                <strong>
+                                    React Modern SPA
+                                </strong>
 
-                </p>
+                                <a
+                                    href="https://developer-productivity-suite-react.vercel.app/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Project
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
 
-                <p class="mb-0 footer-copy">
+                        </div>
 
-                    Built with
-                    <i class="bi bi-heart-fill text-danger"></i>
-                    using Flask
 
-                </p>
+                        <!-- v3 -->
+                        <div class="dps-version-item">
+
+                            <span class="dps-version-label">
+                                v3.0
+                            </span>
+
+                            <div>
+                                <strong>
+                                    Angular Enterprise Frontend
+                                </strong>
+
+                                <a
+                                    href="https://developer-productivity-suite-angula.vercel.app/dashboard"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Project
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+
+
+                        <!-- v4 -->
+                        <div class="dps-version-item dps-version-current">
+
+                            <span class="dps-version-label">
+                                v4.0
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Flask Backend Web Application
+                                </strong>
+
+                                <span class="dps-coming-soon">
+                                    Deployment link will be provided
+                                    after Render deployment.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- v5 -->
+                        <div class="dps-version-item">
+
+                            <span class="dps-version-label">
+                                v5
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Django
+                                </strong>
+
+                                <span class="dps-coming-soon">
+                                    Coming Soon
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- v6 -->
+                        <div class="dps-version-item">
+
+                            <span class="dps-version-label">
+                                v6
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    Full Stack
+                                </strong>
+
+                                <span class="dps-coming-soon">
+                                    Coming Soon
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- This Project -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="dps-footer-section">
+
+                    <h3 class="dps-footer-heading">
+                        This Project
+                    </h3>
+
+                    <div class="dps-footer-links">
+
+                        <a
+                            href="https://github.com/charanepuri/developer-productivity-suite-flask"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="bi bi-github"></i>
+                            GitHub Repository
+                        </a>
+
+                        <span class="dps-footer-disabled">
+                            <i class="bi bi-file-earmark-text"></i>
+                            Documentation
+                            <small>
+                                Coming Soon
+                            </small>
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
-    </footer>
 
+        <!-- Footer Lower Content -->
+        <div class="row g-5 dps-footer-lower">
+
+            <!-- Connect -->
+            <div class="col-md-6">
+
+                <div class="dps-footer-section">
+
+                    <h3 class="dps-footer-heading">
+                        Connect
+                    </h3>
+
+                    <div class="dps-footer-links">
+
+                        <a
+                            href="https://www.linkedin.com/in/charan-teja-972aa9231"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="bi bi-linkedin"></i>
+                            LinkedIn
+                        </a>
+
+                        <a
+                            href="https://github.com/charanepuri"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="bi bi-github"></i>
+                            GitHub
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Explore Portfolios -->
+            <div class="col-md-6">
+
+                <div class="dps-footer-section">
+
+                    <h3 class="dps-footer-heading">
+                        Explore Portfolios
+                    </h3>
+
+                    <div class="dps-portfolio-links">
+
+                        <a
+                            href="https://flask-developer-dashboard-portfolio.onrender.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>Flask</span>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+
+                        <a
+                            href="https://charan-react-portfolio.vercel.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>React</span>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+
+                        <a
+                            href="https://portfolio-site-django.onrender.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>Django</span>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer Bottom -->
+        <div class="dps-footer-bottom text-center">
+
+            <p class="dps-footer-made-with mb-0">
+                Made with <span aria-label="love">💓</span>
+                by <strong>Epuri Charan Teja</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
 
     <!-- Bootstrap JavaScript -->
 
