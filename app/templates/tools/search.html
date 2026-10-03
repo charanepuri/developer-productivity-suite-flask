@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}Search Tools | Developer Productivity Suite{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <span class="badge bg-primary-subtle text-primary mb-3">
+            <i class="bi bi-search"></i>
+            Tool Discovery
+        </span>
+
+        <h1 class="display-5 fw-bold">
+            Search Developer Tools
+        </h1>
+
+        <p class="text-muted mx-auto search-intro">
+            Quickly find the right productivity tool by name,
+            description, or category.
+        </p>
+    </div>
+
+
+    <!-- Search Form -->
+    <div class="search-card mx-auto mb-5">
+
+        <form method="GET"
+              action="{{ url_for('tools.search') }}">
+
+            <div class="input-group input-group-lg">
+
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+
+                <input
+                    type="search"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search tools..."
+                    value="{{ query }}"
+                    autocomplete="off"
+                    autofocus
+                >
+
+                {% if query %}
+                    <a
+                        href="{{ url_for('tools.search') }}"
+                        class="btn btn-outline-secondary"
+                    >
+                        <i class="bi bi-x-lg"></i>
+                        Clear
+                    </a>
+                {% endif %}
+
+                <button
+                    type="submit"
+                    class="btn btn-primary px-4"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {% if query %}
+
+        <!-- Search Results Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h2 class="h4 mb-1">
+                    Search Results
+                </h2>
+
+                <p class="text-muted mb-0">
+                    {% if results %}
+                        {{ results|length }} tool{% if results|length != 1 %}s{% endif %}
+                        found for
+                        <strong>"{{ query }}"</strong>
+                    {% else %}
+                        No tools found for
+                        <strong>"{{ query }}"</strong>
+                    {% endif %}
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if results %}
+
+            <div class="row g-4">
+
+                {% for tool in results %}
+
+                    <div class="col-md-6 col-xl-4">
+
+                        <div class="card h-100 border-0 shadow-sm tool-result-card">
+
+                            <div class="card-body p-4">
+
+                                <div class="d-flex align-items-start justify-content-between mb-3">
+
+                                    <div class="tool-icon">
+                                        <i class="bi bi-tools"></i>
+                                    </div>
+
+                                    <span class="badge text-bg-light">
+                                        {{ tool.category.name }}
+                                    </span>
+
+                                </div>
+
+                                <h3 class="h5 fw-bold">
+                                    {{ tool.name }}
+                                </h3>
+
+                                <p class="text-muted small">
+                                    {{ tool.description }}
+                                </p>
+
+                                <a
+                                    href="{{ url_for('tools.tool_detail', slug=tool.slug) }}"
+                                    class="btn btn-outline-primary w-100"
+                                >
+                                    View Tool
+                                    <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty State -->
+            <div class="empty-search text-center py-5">
+
+                <div class="empty-search-icon mb-4">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <h3 class="h4 fw-bold">
+                    No tools found
+                </h3>
+
+                <p class="text-muted mx-auto mb-4">
+                    We couldn't find a tool matching
+                    <strong>"{{ query }}"</strong>.
+                    Try another keyword such as
+                    <strong>JSON</strong>,
+                    <strong>password</strong>,
+                    <strong>CSS</strong>,
+                    or
+                    <strong>Markdown</strong>.
+                </p>
+
+                <a
+                    href="{{ url_for('tools.index') }}"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-grid me-1"></i>
+                    Browse All Tools
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    {% else %}
+
+        <!-- Initial Search State -->
+        <div class="text-center py-5">
+
+            <div class="search-discovery-icon mb-4">
+                <i class="bi bi-compass"></i>
+            </div>
+
+            <h2 class="h4 fw-bold">
+                Find the right tool
+            </h2>
+
+            <p class="text-muted mx-auto search-help">
+                Search across all 50 developer tools using
+                tool names, descriptions, and categories.
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
+
+                <a
+                    href="{{ url_for('tools.search', q='JSON') }}"
+                    class="btn btn-sm btn-outline-secondary"
+                >
+                    JSON
+                </a>
+
+                <a
+                    href="{{ url_for('tools.search', q='Security') }}"
+                    class="btn btn-sm btn-outline-secondary"
+                >
+                    Security
+                </a>
+
+                <a
+                    href="{{ url_for('tools.search', q='CSS') }}"
+                    class="btn btn-sm btn-outline-secondary"
+                >
+                    CSS
+                </a>
+
+                <a
+                    href="{{ url_for('tools.search', q='Markdown') }}"
+                    class="btn btn-sm btn-outline-secondary"
+                >
+                    Markdown
+                </a>
+
+                <a
+                    href="{{ url_for('tools.search', q='API') }}"
+                    class="btn btn-sm btn-outline-secondary"
+                >
+                    API
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<style>
+
+.search-intro {
+    max-width: 680px;
+}
+
+.search-card {
+    max-width: 850px;
+}
+
+.tool-result-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tool-result-card:hover {
+    transform: translateY(-4px);
+}
+
+.tool-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 1.2rem;
+}
+
+.empty-search-icon,
+.search-discovery-icon {
+
+    width: 72px;
+    height: 72px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+
+    font-size: 2rem;
+}
+
+.empty-search p,
+.search-help {
+    max-width: 600px;
+}
+
+@media (max-width: 576px) {
+
+    .search-card .input-group {
+        flex-wrap: wrap;
+    }
+
+    .search-card .input-group > * {
+        margin-bottom: 0.5rem;
+    }
+
+}
+
+</style>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 from flask import render_template, request , send_file
-
+from sqlalchemy import or_
+from app.extensions import db
 from app.models import Category, Tool
 
 from app.tools.services.text_tools import (
@@ -2128,4 +2129,34 @@ def html_entity_encoder_decoder():
         input_text=input_text,
         output_text=output_text,
         operation=operation,
+    )
+    
+@tools_bp.route("/search")
+def search():
+    query = request.args.get("q", "").strip()
+
+    results = []
+
+    if query:
+        search_pattern = f"%{query}%"
+
+        results = (
+            Tool.query
+            .join(Category)
+            .filter(
+                Tool.is_active.is_(True),
+                or_(
+                    Tool.name.ilike(search_pattern),
+                    Tool.description.ilike(search_pattern),
+                    Category.name.ilike(search_pattern),
+                ),
+            )
+            .order_by(Tool.name.asc())
+            .all()
+        )
+
+    return render_template(
+        "tools/search.html",
+        query=query,
+        results=results,
     )

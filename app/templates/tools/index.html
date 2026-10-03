@@ -26,6 +26,40 @@ Developer Tools | Developer Productivity Suite
 
     </div>
 
+    <div class="search-card mx-auto mb-5">
+
+    <form
+        method="GET"
+        action="{{ url_for('tools.search') }}"
+    >
+
+        <div class="input-group input-group-lg">
+
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+
+            <input
+                type="search"
+                name="q"
+                class="form-control"
+                placeholder="Search 50 developer tools..."
+                autocomplete="off"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary px-4"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
     <div class="row g-4">
 
         {% for category in categories %}
@@ -101,6 +135,11 @@ Developer Tools | Developer Productivity Suite
     color: var(--bs-primary);
     font-size: 1.35rem;
 }
+
+.search-card {
+    max-width: 850px;
+}
+
 </style>
 
 {% endblock %}
