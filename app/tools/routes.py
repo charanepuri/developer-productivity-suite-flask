@@ -1,7 +1,7 @@
-from flask import render_template, request , send_file
+from flask import render_template, request , send_file , flash , redirect , url_for
 from sqlalchemy import or_
 from app.extensions import db
-from app.models import Category, Tool
+from app.models import Category, Tool, Favorite
 
 from app.tools.services.text_tools import (
     count_characters,
@@ -2159,4 +2159,44 @@ def search():
         "tools/search.html",
         query=query,
         results=results,
+    )
+    
+@tools_bp.route("/tool/<slug>/favorite", methods=["POST"])
+@login_required
+def toggle_favorite(slug):
+    tool = Tool.query.filter_by(
+        slug=slug,
+        is_active=True,
+    ).first_or_404()
+
+    favorite = Favorite.query.filter_by(
+        user_id=current_user.id,
+        tool_id=tool.id,
+    ).first()
+
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+
+        flash(
+            f"{tool.name} removed from favorites.",
+            "info",
+        )
+    else:
+        favorite = Favorite(
+            user_id=current_user.id,
+            tool_id=tool.id,
+        )
+
+        db.session.add(favorite)
+        db.session.commit()
+
+        flash(
+            f"{tool.name} added to favorites.",
+            "success",
+        )
+
+    return redirect(
+        request.referrer
+        or url_for("tools.tool_detail", slug=tool.slug)
     )

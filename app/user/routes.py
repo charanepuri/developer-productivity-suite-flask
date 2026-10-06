@@ -2,7 +2,9 @@ from flask import render_template
 
 from app.user import user_bp
 
-from flask_login import login_required
+from flask_login import login_required , current_user
+
+from app.models import Favorite
 
 @user_bp.route("/profile")
 @login_required
@@ -11,8 +13,19 @@ def profile():
 
 
 @user_bp.route("/favorites")
+@login_required
 def favorites():
-    return render_template("user/favorites.html")
+    favorites = (
+        Favorite.query
+        .filter_by(user_id=current_user.id)
+        .order_by(Favorite.created_at.desc())
+        .all()
+    )
+
+    return render_template(
+        "user/favorites.html",
+        favorites=favorites,
+    )
 
 
 @user_bp.route("/history")
